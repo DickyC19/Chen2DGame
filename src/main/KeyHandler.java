@@ -4,11 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-
-    @Override
-    public void keyTyped(KeyEvent e) { // unused
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -17,5 +12,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) { // unused
     }
 }
