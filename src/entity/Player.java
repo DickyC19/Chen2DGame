@@ -21,7 +21,7 @@ public class Player extends Entity{
         y = 100;
         speed = 4;
     }
-
+s
     public void update() {
         if (keyH.upPressed) {
             y -= speed;
