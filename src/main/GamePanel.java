@@ -79,7 +79,6 @@ public class GamePanel extends JPanel implements Runnable{
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
-
             if (delta >= 1) {
                 update();
                 repaint();
