@@ -11,10 +11,11 @@ import java.awt.Color;
 
 public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16;
-    final int battleSize = 80; // when in turn-based section
+    final int battleSize = 108; // when in turn-based section
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
+    public final int battleTileSize = battleSize * scale;
     public final int maxScreenCol = 17;
     public final int maxScreenRow = 13;
     public final int screenWidth = tileSize * maxScreenCol; // 816 pixels
@@ -35,6 +36,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    public int getScale() {
+        return scale;
+    }
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();

@@ -29,7 +29,6 @@ public class Player extends Entity{
     public void getPlayerImage() {
         try {
             up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/boy_up_1.png"));
-            // player/boy_up_1.png
             up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/boy_up_2.png"));
             down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/boy_down_1.png"));
             down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/boy_down_2.png"));
@@ -108,6 +107,6 @@ public class Player extends Entity{
             }
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize * 2, null);
+        g2.drawImage(image, x, y, image.getWidth() * gp.getScale(), image.getHeight() * gp.getScale(), null);
     }
 }
