@@ -31,6 +31,16 @@ public class KeyHandler implements KeyListener {
 
         if (code == KeyEvent.VK_W) {
             upPressed = false;
+        } else if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        } else if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        } else if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        }
+        /* Maybe for turn based part
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
         }
         if (code == KeyEvent.VK_S) {
             downPressed = false;
@@ -39,17 +49,6 @@ public class KeyHandler implements KeyListener {
             leftPressed = false;
         }
         if (code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
-
-        /* Maybe for turn based part
-        if (code == KeyEvent.VK_W) {
-            upPressed = false;
-        } else if (code == KeyEvent.VK_S) {
-            downPressed = false;
-        } else if (code == KeyEvent.VK_A) {
-            leftPressed = false;
-        } else if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
         */
