@@ -12,18 +12,24 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
+    public final int screenX;
+    public final int screenY;
     String previousDirection;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth / 2 - (gp.tileSize);
+        screenY = gp.screenHeight / 2 - (gp.tileSize);
+
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        worldX = 100;
-        worldY = 100;
+        worldX = gp.tileSize * 7;
+        worldY = gp.tileSize * 5;
         speed = 4;
         direction = "right";
         previousDirection = "right";
@@ -120,6 +126,6 @@ public class Player extends Entity{
             }
         }
 
-        g2.drawImage(image, worldX, worldY, image.getWidth() * 3, image.getHeight() * 3, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize , gp.tileSize, null);
     }
 }
