@@ -10,12 +10,12 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-//        if (code == KeyEvent.VK_W) {
-//            upPressed = true;
-//        }
-//        if (code == KeyEvent.VK_S) {
-//            downPressed = true;
-//        }
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        }
         if (code == KeyEvent.VK_A) {
             leftPressed = true;
         }
@@ -29,16 +29,18 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-//        if (code == KeyEvent.VK_W) {
-//            upPressed = false;
-//        } else if (code == KeyEvent.VK_S) {
-//            downPressed = false;
-        //} else
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        }
         if (code == KeyEvent.VK_A) {
             leftPressed = false;
-        } else if (code == KeyEvent.VK_D) {
-            rightPressed = false;
         }
+       if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+       }
         /* Maybe for turn based part
         if (code == KeyEvent.VK_W) {
             upPressed = false;
