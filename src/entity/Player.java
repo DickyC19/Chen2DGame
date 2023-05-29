@@ -120,6 +120,6 @@ public class Player extends Entity{
             }
         }
 
-        g2.drawImage(image, x, y, image.getWidth() * 3, image.getHeight() * 3, null);
+        g2.drawImage(image, worldX, worldY, image.getWidth() * 3, image.getHeight() * 3, null);
     }
 }
