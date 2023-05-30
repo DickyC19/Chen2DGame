@@ -14,7 +14,6 @@ public class GamePanel extends JPanel implements Runnable{
     final int battleSize = 108; // when in turn-based section
     final int scale = 4;
 
-    public int difficulty;
     public final int tileSize = originalTileSize * scale;
     public final int battleTileSize = battleSize * scale;
     public final int maxScreenCol = 17;
@@ -23,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenHeight = tileSize * maxScreenRow; //  pixels
 
     int FPS = 60;
-
+    public int difficulty;
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;

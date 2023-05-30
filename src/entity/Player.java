@@ -11,14 +11,13 @@ import java.io.IOException;
 public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
-
     String previousDirection;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
-        solidArea = new Rectangle(11 * gp.getScale(), 24 * gp.getScale(), 11 * gp.getScale(), 12 * gp.getScale());
+        solidArea = new Rectangle(21, 47, 23, 17);
 
         setDefaultValues();
         getPlayerImage();
@@ -69,18 +68,10 @@ public class Player extends Entity{
             gp.collisionChecker.checkTile(this);
             if (!collisionOn) {
                 switch (direction) {
-                    case "up":
-                        y -= speed;
-                        break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
+                    case "up" -> y -= speed;
+                    case "down" -> y += speed;
+                    case "left" -> x -= speed;
+                    case "right" -> x += speed;
                 }
             }
 
