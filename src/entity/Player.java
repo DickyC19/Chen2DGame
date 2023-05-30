@@ -4,7 +4,7 @@ import main.GamePanel;
 import main.KeyHandler;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -17,6 +17,8 @@ public class Player extends Entity{
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+        solidArea = new Rectangle(11 * gp.getScale(), 24 * gp.getScale(), 11 * gp.getScale(), 12 * gp.getScale());
 
         setDefaultValues();
         getPlayerImage();
@@ -50,24 +52,35 @@ public class Player extends Entity{
                     previousDirection = "left";
                 }
                 direction = "up";
-                y -= speed;
-            }
-            if (keyH.downPressed) {
+            } else if (keyH.downPressed) {
                 if (direction.equals("right")) {
                    previousDirection = "right";
                 } else if (direction.equals("left")) {
                     previousDirection = "left";
                 }
                 direction = "down";
-                y += speed;
-            }
-            if (keyH.leftPressed) {
+            } else if (keyH.leftPressed) {
                 direction = "left";
-                x -= speed ;
-            }
-            if (keyH.rightPressed) {
+            } else if (keyH.rightPressed) {
                 direction = "right";
-                x += speed;
+            }
+
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up":
+                        System.out.println("salfjaslda");
+                        System.out.println(y);
+                        y -= speed;
+                        System.out.println(y);
+                    case "down":
+                        y += speed;
+                    case "left":
+                        x -= speed;
+                    case "right":
+                        x += speed ;
+                }
             }
 
             spriteCounter++;

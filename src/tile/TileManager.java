@@ -13,14 +13,14 @@ public class TileManager {
 
     GamePanel gp;
     String[] maps;
-    Tile[] tile;
-    int[][] mapTileNum;
+    public Tile[] tile;
+    public int[][] mapTileNum;
     int count;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        maps = new String[]{"maps/map01.txt", "maps/map02.txt", "maps/map03.txt", "maps/map04.txt", "maps/map05.txt", "maps/map06.txt", "maps/map07.txt", "maps/map08.txt", "maps/map09.txt"};
-        tile = new Tile[20];
+        maps = new String[]{"maps/map00.txt", "maps/map01.txt", "maps/map02.txt", "maps/map03.txt", "maps/map04.txt", "maps/map05.txt", "maps/map06.txt", "maps/map07.txt", "maps/map08.txt", "maps/map09.txt"};
+        tile = new Tile[39];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenCol];
         count = 0;
         getTileImage();
@@ -63,6 +63,9 @@ public class TileManager {
             tile[11].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/017.png"));
             tile[17] = new Tile();
             tile[17].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/017.png"));
+            tile[38] = new Tile();
+            tile[38].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/038.png"));
+            tile[38].collision = true;
 
         } catch (IOException e) {
             e.printStackTrace();
