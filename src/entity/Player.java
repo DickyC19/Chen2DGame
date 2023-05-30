@@ -61,7 +61,7 @@ public class Player extends Entity{
                 direction = "down";
             } else if (keyH.leftPressed) {
                 direction = "left";
-            } else if (keyH.rightPressed) {
+            } else {
                 direction = "right";
             }
 
@@ -70,16 +70,17 @@ public class Player extends Entity{
             if (!collisionOn) {
                 switch (direction) {
                     case "up":
-                        System.out.println("salfjaslda");
-                        System.out.println(y);
                         y -= speed;
-                        System.out.println(y);
+                        break;
                     case "down":
                         y += speed;
+                        break;
                     case "left":
                         x -= speed;
+                        break;
                     case "right":
-                        x += speed ;
+                        x += speed;
+                        break;
                 }
             }
 
