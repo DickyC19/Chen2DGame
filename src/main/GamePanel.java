@@ -14,17 +14,13 @@ public class GamePanel extends JPanel implements Runnable{
     final int battleSize = 108; // when in turn-based section
     final int scale = 6;
 
+    public int difficulty;
     public final int tileSize = originalTileSize * scale;
     public final int battleTileSize = battleSize * scale;
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
+    public final int maxScreenCol = 17;
+    public final int maxScreenRow = 13;
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-
-    public final int maxWorldCol = 192;
-    public final int maxWorldRow = 12;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     int FPS = 60;
 
@@ -39,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        difficulty = 2;
     }
 
     public int getScale() {
@@ -76,7 +73,25 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        if (player.x == screenWidth) {
+            tileM.loadMap();
+            player.x = 0;
+        } else if (player.x < 0) {
+            tileM.setCount(tileM.getCount() - 2);
+            tileM.loadMap();
+            player.x = tileSize * (maxScreenCol - 1);
+        } else if (player.y == screenHeight) {
+            difficulty = 1;
+            tileM.loadMap();
+            player.y = 0;
+        } else if (player.y < 0) {
+            difficulty = 3;
+            tileM.loadMap();
+            player.y = screenHeight;
+        }
         tileM.draw(g2);
+
         player.draw(g2);
         g2.dispose();
     }
