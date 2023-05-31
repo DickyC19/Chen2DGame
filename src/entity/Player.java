@@ -17,7 +17,8 @@ public class Player extends Entity{
         this.keyH = keyH;
 
         solidArea = new Rectangle(21, 47, 22, 16);
-
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         setDefaultValues();
         getPlayerImage();
     }
@@ -66,8 +67,10 @@ public class Player extends Entity{
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
 
-            gp.collisionChecker.checkEntity(this, gp.oldMan);
-            interactNPC(gp.oldMan);
+            if (gp.oldMan.isDrawn) {
+                interactNPC(gp.collisionChecker.checkEntity(this, gp.oldMan));
+            }
+
 
             if (!collisionOn) {
                 switch (direction) {
@@ -77,8 +80,6 @@ public class Player extends Entity{
                     case "right" -> x += speed;
                 }
             }
-
-
 
             spriteCounter++;
             if (spriteCounter > 12) {
@@ -134,7 +135,15 @@ public class Player extends Entity{
         g2.drawImage(image, x, y, gp.tileSize , gp.tileSize, null);
     }
 
-    public void interactNPC(Entity target) {
+    public void interactNPC(boolean collided) {
+        if (collided) {
 
+        }
+    }
+
+    public void interactEnemy(boolean collided) {
+        if (collided ) {
+            gp.gameState = gp.pauseState;
+        }
     }
 }

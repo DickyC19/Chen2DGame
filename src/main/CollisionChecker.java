@@ -61,7 +61,8 @@ public class CollisionChecker {
         }
     }
 
-    public void checkEntity(Entity entity, Entity target) {
+    public boolean checkEntity(Entity entity, Entity target) {
+        boolean collided = false;
         entity.solidArea.x = entity.x + entity.solidArea.x;
         entity.solidArea.y = entity.y + entity.solidArea.y;
 
@@ -73,35 +74,43 @@ public class CollisionChecker {
                 entity.solidArea.y -= entity.speed;
                 if (entity.solidArea.intersects(target.solidArea)) {
                     entity.collisionOn = true;
+                    collided = true;
                 }
-                break;
             }
             case "down" -> {
                 entity.solidArea.y += entity.speed;
                 if (entity.solidArea.intersects(target.solidArea)) {
                     entity.collisionOn = true;
+                    collided = true;
                 }
-                break;
             }
             case "left" -> {
                 entity.solidArea.x -= entity.speed;
                 if (entity.solidArea.intersects(target.solidArea)) {
                     entity.collisionOn = true;
+                    collided = true;
                 }
-                break;
             }
             case "right" -> {
                 entity.solidArea.x += entity.speed;
                 if (entity.solidArea.intersects(target.solidArea)) {
                     entity.collisionOn = true;
+                    collided = true;
                 }
-                break;
             }
-            entity.solidArea.x = entity.solidAreaDefaultX;
-            entity.solidArea.y = entity.solidAreaDefaultY;
-            target.solidArea.x = target.solidAreaDefaultX;
-            target.solidArea.y = target.solidAreaDefaultY;
         }
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        target.solidArea.x = target.solidAreaDefaultX;
+        target.solidArea.y = target.solidAreaDefaultY;
+        return collided;
+    }
+
+    public boolean checkEnemy(Entity entity, Entity enemy) {
+        boolean collided = false;
+
+
+        return collided;
     }
 
 

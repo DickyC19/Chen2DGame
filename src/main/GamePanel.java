@@ -102,11 +102,12 @@ public class GamePanel extends JPanel implements Runnable{
             player.y = tileSize * 6;
         }
         tileM.draw(g2);
-
-        player.draw(g2);
         if (tileM.getCount() == 1) {
             oldMan.drawNPC(g2);
+        } else {
+            oldMan.setDrawn(false);
         }
+        player.draw(g2);
         g2.dispose();
     }
 
