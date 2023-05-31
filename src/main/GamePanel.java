@@ -85,11 +85,13 @@ public class GamePanel extends JPanel implements Runnable{
         } else if (player.y == screenHeight) {
             difficulty = 1;
             tileM.loadMap();
-            player.y = 0;
+            player.x = 0;
+            player.y = tileSize * 6;
         } else if (player.y < 0) {
             difficulty = 3;
             tileM.loadMap();
-            player.y = screenHeight;
+            player.x = 0;
+            player.y = tileSize * 6;
         }
         tileM.draw(g2);
 

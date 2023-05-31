@@ -17,7 +17,7 @@ public class Player extends Entity{
         this.gp = gp;
         this.keyH = keyH;
 
-        solidArea = new Rectangle(21, 47, 23, 17);
+        solidArea = new Rectangle(21, 47, 22, 16);
 
         setDefaultValues();
         getPlayerImage();
