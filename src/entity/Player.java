@@ -9,12 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler keyH;
     String previousDirection;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         solidArea = new Rectangle(21, 47, 22, 16);
@@ -66,6 +65,10 @@ public class Player extends Entity{
 
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
+
+            gp.collisionChecker.checkEntity(this, gp.oldMan);
+            interactNPC(gp.oldMan);
+
             if (!collisionOn) {
                 switch (direction) {
                     case "up" -> y -= speed;
@@ -74,6 +77,8 @@ public class Player extends Entity{
                     case "right" -> x += speed;
                 }
             }
+
+
 
             spriteCounter++;
             if (spriteCounter > 12) {
@@ -127,5 +132,9 @@ public class Player extends Entity{
         }
 
         g2.drawImage(image, x, y, gp.tileSize , gp.tileSize, null);
+    }
+
+    public void interactNPC(Entity target) {
+
     }
 }

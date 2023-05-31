@@ -1,8 +1,10 @@
 package entity;
 
+import main.GamePanel;
+
 public class Enemy extends Entity {
-
-    public Enemy() {
-
+    GamePanel gp;
+    public Enemy(GamePanel gp) {
+        super(gp);
     }
 }

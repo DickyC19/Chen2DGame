@@ -68,8 +68,8 @@ public class TileManager {
     }
     public void loadMap() {
         try {
-
             System.out.println(maps[count]);
+
             InputStream is = getClass().getClassLoader().getResourceAsStream(maps[count]);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 

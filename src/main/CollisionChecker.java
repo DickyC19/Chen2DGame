@@ -1,6 +1,8 @@
 package main;
 
 import entity.Entity;
+import entity.NPC_OldMan;
+
 public class CollisionChecker {
 
     GamePanel gp;
@@ -58,5 +60,49 @@ public class CollisionChecker {
             }
         }
     }
+
+    public void checkEntity(Entity entity, Entity target) {
+        entity.solidArea.x = entity.x + entity.solidArea.x;
+        entity.solidArea.y = entity.y + entity.solidArea.y;
+
+        target.solidArea.x = target.x + target.solidArea.x;
+        target.solidArea.y = target.y + target.solidArea.y;
+
+        switch (entity.direction) {
+            case "up" -> {
+                entity.solidArea.y -= entity.speed;
+                if (entity.solidArea.intersects(target.solidArea)) {
+                    entity.collisionOn = true;
+                }
+                break;
+            }
+            case "down" -> {
+                entity.solidArea.y += entity.speed;
+                if (entity.solidArea.intersects(target.solidArea)) {
+                    entity.collisionOn = true;
+                }
+                break;
+            }
+            case "left" -> {
+                entity.solidArea.x -= entity.speed;
+                if (entity.solidArea.intersects(target.solidArea)) {
+                    entity.collisionOn = true;
+                }
+                break;
+            }
+            case "right" -> {
+                entity.solidArea.x += entity.speed;
+                if (entity.solidArea.intersects(target.solidArea)) {
+                    entity.collisionOn = true;
+                }
+                break;
+            }
+            entity.solidArea.x = entity.solidAreaDefaultX;
+            entity.solidArea.y = entity.solidAreaDefaultY;
+            target.solidArea.x = target.solidAreaDefaultX;
+            target.solidArea.y = target.solidAreaDefaultY;
+        }
+    }
+
 
 }
