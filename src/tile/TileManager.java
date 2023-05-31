@@ -1,6 +1,7 @@
 package tile;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.io.BufferedReader;
@@ -36,43 +37,35 @@ public class TileManager {
     }
 
     public void getTileImage() {
-        try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/000.png")); //insert file name after "/"
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/001.png"));
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/002.png"));
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/003.png"));
-            tile[3].collision = true;
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/004.png"));
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/005.png"));
-            tile[6] = new Tile();
-            tile[6].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/006.png"));
-            tile[7] = new Tile();
-            tile[7].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/007.png"));
-            tile[8] = new Tile();
-            tile[8].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/008.png"));
-            tile[9] = new Tile();
-            tile[9].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/009.png"));
-            tile[10] = new Tile();
-            tile[10].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/010.png"));
-            tile[11] = new Tile();
-            tile[11].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/017.png"));
-            tile[17] = new Tile();
-            tile[17].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/017.png"));
-            tile[38] = new Tile();
-            tile[38].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/038.png"));
-            tile[38].collision = true;
+            setUp(0, "000", false);
+            setUp(1, "001", false);
+            setUp(2, "002", false);
+            setUp(3, "003", true);
+            setUp(4, "004", false);
+            setUp(5, "005", false);
+            setUp(6, "006", false);
+            setUp(7, "007", false);
+            setUp(8, "008", false);
+            setUp(9, "009", false);
+            setUp(10, "010", false);
+            setUp(11, "011", false);
+            setUp(12, "012", false);
+            setUp(17, "017", false);
+            setUp(38, "038", true);
+    }
 
-        } catch (IOException e) {
+    public void setUp(int index, String imagePath, boolean collision) {
+        UtilityTool uTool = new UtilityTool();
+
+        try {
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/" + imagePath + ".png"));
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].collision = collision;
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
-
     public void loadMap() {
         try {
 
