@@ -1,5 +1,8 @@
 package main;
 
+import entity.Entity;
+import object.OBJ_Heart;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,7 +10,7 @@ import java.io.IOException;
 
 public class UI {
 
-    BufferedImage image;
+    BufferedImage heart;
     GamePanel gp;
     Graphics2D g2;
 
@@ -17,6 +20,9 @@ public class UI {
 
     public UI(GamePanel gp) {
         this.gp = gp;
+
+        Entity heartObj = new OBJ_Heart(gp);
+        heart = heartObj.image;
     }
 
     public void draw(Graphics2D g2) {
@@ -26,12 +32,13 @@ public class UI {
             drawTitleScreen();
         }
         if (gp.gameState == gp.playState) {
-
+            drawHealth();
         }
         if (gp.gameState == gp.pauseState) {
-
+            drawBattleScene();
         }
         if (gp.gameState == gp.dialogueState) {
+            drawHealth();
             drawDialogueScreen();
         }
     }
@@ -41,7 +48,7 @@ public class UI {
         String text = "(not) Elden Ring";
         int textX = getXCenteredText(text);
         int textY = gp.tileSize * 2;
-
+        BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/title1.png"));
         } catch (IOException e) {
@@ -90,6 +97,24 @@ public class UI {
         }
     }
 
+
+    public void drawHealth() {
+        int screenX = gp.tileSize / 2;
+        int screenY = gp.tileSize / 2;
+
+        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.black);
+        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+        g2.setColor(Color.white);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+        g2.setColor(Color.red);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+    }
+
+    public void drawBattleScene() {
+
+    }
+
     public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
 
         Color c = new Color(0, 0, 0, 210);
@@ -104,8 +129,7 @@ public class UI {
 
     public int getXCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = gp.screenWidth / 2 - length / 2;
-        return x;
+        return gp.screenWidth / 2 - length / 2;
     }
 
 
