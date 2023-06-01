@@ -20,6 +20,8 @@ public class NPC_OldMan extends Entity{
         y = gp.tileSize * 6;
         solidAreaDefaultX = 0;
         solidAreaDefaultY = 0;
+
+        setDialogue();
     }
 
     public int getX() {
@@ -42,6 +44,16 @@ public class NPC_OldMan extends Entity{
         }
         g2.drawImage(image, gp.tileSize * 12, gp.tileSize * 6, gp.tileSize, gp.tileSize, null);
         isDrawn = true;
+    }
+    public void setDialogue() {
+        dialogues[0] = "Hello traveler, Welcome to (not) Elden Ring";
+        dialogues[1] = "The top path will be the hardest but will contain the \nmost rewards. \n\nThe bottom path will be the easiest but will \ncontain very few. \n\nThe center path is right in the middle of the two ";
+        dialogues[2] = "But wait! It's dangerous to go alone! Take this.";
+        dialogues[3] = "*Obtained Sword*";
+    }
+
+    public void speak() {
+        super.speak();
     }
 
 }

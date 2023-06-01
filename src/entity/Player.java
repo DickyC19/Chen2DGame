@@ -71,7 +71,6 @@ public class Player extends Entity{
                 interactNPC(gp.collisionChecker.checkEntity(this, gp.oldMan));
             }
 
-
             if (!collisionOn) {
                 switch (direction) {
                     case "up" -> y -= speed;
@@ -92,6 +91,7 @@ public class Player extends Entity{
             }
         }
     }
+
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
@@ -137,13 +137,19 @@ public class Player extends Entity{
 
     public void interactNPC(boolean collided) {
         if (collided) {
-
+            if (gp.keyH.spacePressed) {
+                gp.gameState = gp.dialogueState;
+                gp.oldMan.speak();
+            }
         }
+        gp.keyH.spacePressed = false;
     }
 
     public void interactEnemy(boolean collided) {
-        if (collided ) {
+        if (collided) {
             gp.gameState = gp.pauseState;
         }
     }
+
+
 }

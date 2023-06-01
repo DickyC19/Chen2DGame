@@ -26,14 +26,16 @@ public class GamePanel extends JPanel implements Runnable{
     public int difficulty;
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
+    public KeyHandler keyH = new KeyHandler(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public UI ui = new UI(this);
     public Player player = new Player(this, keyH);
     public NPC_OldMan oldMan = new NPC_OldMan(this);
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -75,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable{
             player.update();
         }
         if (gameState == pauseState) {
-            // player.battleUpdate();
+
         }
     }
 
@@ -101,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
             player.x = 0;
             player.y = tileSize * 6;
         }
+
         tileM.draw(g2);
         if (tileM.getCount() == 1) {
             oldMan.drawNPC(g2);
@@ -108,6 +111,9 @@ public class GamePanel extends JPanel implements Runnable{
             oldMan.setDrawn(false);
         }
         player.draw(g2);
+
+        ui.draw(g2);
+
         g2.dispose();
     }
 
