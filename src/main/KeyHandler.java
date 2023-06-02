@@ -51,20 +51,36 @@ public class KeyHandler implements KeyListener {
                 spacePressed = true;
             }
         } else if (gp.gameState == gp.pauseState) {
-            if (code == KeyEvent.VK_W) {
-
-            }
-            if (code == KeyEvent.VK_S) {
-
-            }
-            if (code == KeyEvent.VK_A) {
-
-            }
-            if (code == KeyEvent.VK_D) {
-
+            if (gp.ui.battleNum == 0) {
+                if (code == KeyEvent.VK_A) {
+                    gp.ui.choiceNum--;
+                    if (gp.ui.choiceNum < 0) {
+                        gp.ui.choiceNum = 1;
+                    }
+                }
+                if (code == KeyEvent.VK_D) {
+                    gp.ui.choiceNum++;
+                    if (gp.ui.choiceNum > 1) {
+                        gp.ui.choiceNum = 0;
+                    }
+                }
+            } else if (gp.ui.battleNum == 1) {
+                if (code == KeyEvent.VK_W) {
+                    gp.ui.choiceNum--;
+                    if (gp.ui.choiceNum < 0) {
+                        gp.ui.choiceNum = 1;
+                    }
+                }
+                if (code == KeyEvent.VK_S) {
+                    gp.ui.choiceNum++;
+                    if (gp.ui.choiceNum > 1) {
+                        gp.ui.choiceNum = 0;
+                    }
+                }
             }
             if (code == KeyEvent.VK_SPACE) {
                 gp.ui.battleNum++;
+                gp.ui.choiceNum = 0;
             }
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {

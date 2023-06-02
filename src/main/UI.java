@@ -29,6 +29,7 @@ public class UI {
 
     public int commandNum = 0;
     public int battleNum = 0;
+    public int choiceNum = 0;
 
     public String currentDialogue = "";
 
@@ -94,6 +95,7 @@ public class UI {
     }
 
     public void drawBattleScene() {
+        int x = 0;
         if (!gp.monsterDead) {
             enemy = gp.getCurrentMonster();
             try {
@@ -108,12 +110,31 @@ public class UI {
             }
 
             drawBackground();
-
+            drawCharacters();
             if (battleNum == 0) {
+
                 g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, textBox.getWidth() * gp.scale, textBox.getHeight() * gp.scale, null);
                 g2.drawImage(fightSelect, gp.screenWidth - fightSelect.getWidth() * gp.scale, gp.screenHeight - fightSelect.getHeight() * gp.scale, fightSelect.getWidth() * gp.scale, fightSelect.getHeight() * gp.scale, null);
-                g2.drawImage(arrow, gp.screenWidth - (fightSelect.getWidth() * gp.scale) + 33, gp.screenHeight - (fightSelect.getHeight() * gp.scale) + 75, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
+                if (choiceNum == 0) {
+                    x = gp.screenWidth - (fightSelect.getWidth() * gp.scale) + 33;
+                } else if (choiceNum == 1){
+                    x = gp.screenWidth - gp.tileSize * 3 - 20;
+                }
+                g2.drawImage(arrow, x, gp.screenHeight - (fightSelect.getHeight() * gp.scale) + 75, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
+
             } else if (battleNum == 1) {
+
+                g2.drawImage(moveList, 0, gp.screenHeight - moveList.getHeight() * gp.scale, gp.screenWidth, moveList.getHeight() * gp.scale, null);
+                for (int i = 0; i < gp.player.moves.length; i ++) {
+                    g2.drawString(gp.player.moves[i].name, gp.tileSize, gp.screenHeight - gp.tileSize * i);
+                }
+
+                if (choiceNum == 0) {
+
+                } else if (choiceNum == 1){
+
+                }
+                g2.drawImage(arrow, x, gp.screenHeight - (fightSelect.getHeight() * gp.scale) + 75, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
 
             } else if (battleNum == 2) {
 
@@ -175,6 +196,20 @@ public class UI {
         if (background5 != null) {
             g2.drawImage(background5, 0,0, gp.screenWidth, gp.screenHeight, null);
         }
+    }
+
+    public void drawCharacters() {
+        BufferedImage character = null;
+        BufferedImage boss = null;
+        try {
+            character = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/pixelknight.png"));
+            boss = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemies/PixelGraftedScion.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // fix coords
+        g2.drawImage(character, gp.tileSize, gp.screenHeight - gp.tileSize, null);
+        g2.drawImage(boss, gp.screenWidth - gp.tileSize, gp.tileSize, null);
     }
 
     public void drawDialogueScreen() {
