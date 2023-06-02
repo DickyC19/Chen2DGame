@@ -151,7 +151,7 @@ public class UI {
         // fix coords
 
         g2.drawImage(character, gp.tileSize, gp.screenHeight - gp.tileSize * 9, character.getWidth() * gp.scale, character.getHeight() * gp.scale, null);
-        g2.drawImage(enemyImage, gp.screenWidth - gp.tileSize, gp.tileSize, null);
+        g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
     }
 
     public void drawDialogueScreen() {
