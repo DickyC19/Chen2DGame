@@ -64,7 +64,7 @@ public class KeyHandler implements KeyListener {
 
             }
             if (code == KeyEvent.VK_SPACE) {
-
+                gp.ui.battleNum++;
             }
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {

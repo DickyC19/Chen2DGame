@@ -25,9 +25,10 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
 
-
     public int maxLife;
     public int life;
+
+    public Move[] moves;
 
     public Entity(GamePanel gp) {
         this.gp = gp;

@@ -1,5 +1,6 @@
 package main;
 
+import entity.Enemy;
 import entity.Entity;
 import object.OBJ_Heart;
 
@@ -11,10 +12,18 @@ import java.io.IOException;
 public class UI {
 
     BufferedImage heart;
+    BufferedImage arrow;
+    BufferedImage fightSelect;
+    BufferedImage moveList;
+    BufferedImage redArrow;
+    BufferedImage textBox;
+    BufferedImage enemyImage;
+    Enemy enemy;
     GamePanel gp;
     Graphics2D g2;
 
     public int commandNum = 0;
+    public int battleNum = 0;
 
     public String currentDialogue = "";
 
@@ -77,8 +86,40 @@ public class UI {
         if (commandNum == 1) {
             g2.drawString(">", textX - gp.tileSize, textY);
         }
+    }
+
+    public void drawBattleScene() {
+        if (gp.monsterDead) {
+            enemy = gp.getCurrentMonster();
+            try {
+                arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
+                fightSelect = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/FightSelect.png"));
+                moveList = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/MoveList.png"));
+                redArrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Redarrow.png"));
+                textBox = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Textbox.png"));
+                enemyImage = enemy.image;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (battleNum == 0) {
+                g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, textBox.getWidth() * gp.scale, textBox.getHeight() * gp.scale, null);
+                g2.drawImage(fightSelect, gp.screenWidth - fightSelect.getWidth() * gp.scale, gp.screenHeight - fightSelect.getHeight() * gp.scale, fightSelect.getWidth() * gp.scale, fightSelect.getHeight() * gp.scale, null);
+                g2.drawImage(arrow, gp.screenWidth - (fightSelect.getWidth() * gp.scale) + 33, gp.screenHeight - (fightSelect.getHeight() * gp.scale) + 75, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
+            } else if (battleNum == 1) {
+
+            } else if (battleNum == 2) {
+
+            }
+
+            if (enemy.life < 0) {
+                enemy.life = 0;
+                gp.monsterDead = true;
+            }
+        }
 
     }
+
     public void drawDialogueScreen() {
         int dialogueX = gp.tileSize * 2;
         int dialogueY = gp.tileSize / 2;
@@ -111,9 +152,7 @@ public class UI {
         g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
     }
 
-    public void drawBattleScene() {
 
-    }
 
     public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
 

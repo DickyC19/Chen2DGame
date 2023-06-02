@@ -106,12 +106,6 @@ public class CollisionChecker {
         return collided;
     }
 
-    public boolean checkEnemy(Entity entity, Entity enemy) {
-        boolean collided = false;
-
-
-        return collided;
-    }
 
 
 }

@@ -19,6 +19,7 @@ public class Player extends Entity{
         solidArea = new Rectangle(21, 47, 22, 16);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        moves = new Move[4];
         setDefaultValues();
         getPlayerImage();
     }
@@ -32,6 +33,11 @@ public class Player extends Entity{
 
         maxLife = 300;
         life = maxLife;
+
+        moves[0] = new Move("Slash", 40, 6, 1, 0);
+        moves[1] = new Move("Heavy SLash", 60, 6, 2, 0);
+        moves[2] = new Move("Lion's Claw", 100, 15, 1, 1);
+        moves[3] = new Move("EarthShaker", 150, 30, 2, 2);
     }
 
     public void getPlayerImage() {
@@ -74,6 +80,10 @@ public class Player extends Entity{
                 interactNPC(gp.collisionChecker.checkEntity(this, gp.oldMan));
             }
 
+            if (!gp.monsterDead) {
+                interactEnemy(gp.collisionChecker.checkEntity(this, gp.monsters[0]));
+            }
+
             if (!collisionOn) {
                 switch (direction) {
                     case "up" -> y -= speed;
@@ -95,6 +105,9 @@ public class Player extends Entity{
         }
     }
 
+    public void battleUpdate() {
+
+    }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;

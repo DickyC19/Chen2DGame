@@ -24,14 +24,6 @@ public class NPC_OldMan extends Entity{
         setDialogue();
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public void setDrawn(boolean drawn) {
         isDrawn = drawn;
     }
@@ -42,7 +34,7 @@ public class NPC_OldMan extends Entity{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        g2.drawImage(image, gp.tileSize * 12, gp.tileSize * 6, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
         isDrawn = true;
     }
     public void setDialogue() {

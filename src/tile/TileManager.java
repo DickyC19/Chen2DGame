@@ -70,6 +70,7 @@ public class TileManager {
         try {
             System.out.println(maps[count]);
 
+            gp.monsterDead = false;
             InputStream is = getClass().getClassLoader().getResourceAsStream(maps[count]);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
