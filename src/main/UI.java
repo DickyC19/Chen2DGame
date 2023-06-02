@@ -18,6 +18,11 @@ public class UI {
     BufferedImage redArrow;
     BufferedImage textBox;
     BufferedImage enemyImage;
+    BufferedImage background1;
+    BufferedImage background2;
+    BufferedImage background3;
+    BufferedImage background4;
+    BufferedImage background5;
     Enemy enemy;
     GamePanel gp;
     Graphics2D g2;
@@ -89,7 +94,7 @@ public class UI {
     }
 
     public void drawBattleScene() {
-        if (gp.monsterDead) {
+        if (!gp.monsterDead) {
             enemy = gp.getCurrentMonster();
             try {
                 arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
@@ -101,6 +106,8 @@ public class UI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            drawBackground();
 
             if (battleNum == 0) {
                 g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, textBox.getWidth() * gp.scale, textBox.getHeight() * gp.scale, null);
@@ -115,9 +122,59 @@ public class UI {
             if (enemy.life < 0) {
                 enemy.life = 0;
                 gp.monsterDead = true;
+                gp.gameState = gp.playState;
             }
         }
 
+    }
+
+    public void drawBackground() {
+        if (gp.tileM.getCount() <= 4) {
+            try {
+                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave1.png"));
+                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave2.png"));
+                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave3.png"));
+                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave4.png"));
+                background5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave5.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (gp.tileM.getCount() <= 7) {
+            try {
+                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain3.png"));
+                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain2.png"));
+                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain1.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (gp.tileM.getCount() <= 9) {
+            try {
+                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill1.png"));
+                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill2.png"));
+                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill3.png"));
+                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill4.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple1.png"));
+                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple2.png"));
+                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple3.png"));
+                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple4.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        g2.drawImage(background1, 0, 0, gp.screenWidth, gp.screenHeight, null);
+        g2.drawImage(background2,0, 0, gp.screenWidth, gp.screenHeight, null);
+        g2.drawImage(background3,0, 0, gp.screenWidth, gp.screenHeight, null);
+        if (background4 != null) {
+            g2.drawImage(background4, 0,0, gp.screenWidth, gp.screenHeight, null);
+        }
+        if (background5 != null) {
+            g2.drawImage(background5, 0,0, gp.screenWidth, gp.screenHeight, null);
+        }
     }
 
     public void drawDialogueScreen() {

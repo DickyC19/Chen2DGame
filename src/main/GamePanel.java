@@ -126,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable{
                 oldMan.setDrawn(false);
             }
 
-            if (tileM.getCount() > 1 && monsterDead) {
+            if (tileM.getCount() > 1 && !monsterDead) {
                 monsters[tileM.getCount() - 2].drawEnemy(g2);
             }
 
