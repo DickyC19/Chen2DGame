@@ -100,20 +100,28 @@ public class GamePanel extends JPanel implements Runnable{
             if (player.x == screenWidth) {
                 tileM.loadMap();
                 player.x = 0;
+                ui.enemy = monsters[tileM.getCount() - 2];
+                ui.setImages();
                 monsters[tileM.getCount() - 2].resetHp();
             } else if (player.x < 0) {
                 tileM.setCount(tileM.getCount() - 2);
                 tileM.loadMap();
                 player.x = tileSize * (maxScreenCol - 1);
+                ui.enemy = monsters[tileM.getCount() - 2];
+                ui.setImages();
                 monsters[tileM.getCount() - 2].resetHp();
             } else if (player.y == screenHeight) {
                 difficulty = 1;
                 tileM.loadMap();
+                ui.enemy = monsters[tileM.getCount() - 2];
+                ui.setImages();
                 player.x = 0;
                 player.y = tileSize * 6;
             } else if (player.y < 0) {
                 difficulty = 3;
                 tileM.loadMap();
+                ui.enemy = monsters[tileM.getCount() - 2];
+                ui.setImages();
                 player.x = 0;
                 player.y = tileSize * 6;
             }

@@ -67,20 +67,53 @@ public class KeyHandler implements KeyListener {
             } else if (gp.ui.battleNum == 1) {
                 if (code == KeyEvent.VK_W) {
                     gp.ui.choiceNum--;
-                    if (gp.ui.choiceNum < 0) {
+                    if (gp.ui.choiceNum == 1) {
+                        gp.ui.choiceNum = 3;
+                    }
+                    if (gp.ui.choiceNum == -1) {
                         gp.ui.choiceNum = 1;
                     }
                 }
                 if (code == KeyEvent.VK_S) {
                     gp.ui.choiceNum++;
-                    if (gp.ui.choiceNum > 1) {
+                    if (gp.ui.choiceNum == 2) {
                         gp.ui.choiceNum = 0;
+                    }
+                    if (gp.ui.choiceNum == 4) {
+                        gp.ui.choiceNum = 2;
+                    }
+                }
+                if (code == KeyEvent.VK_A) {
+                    gp.ui.choiceNum -= 2;
+                    if (gp.ui.choiceNum == -2) {
+                        gp.ui.choiceNum = 2;
+                    }
+                    if (gp.ui.choiceNum == -1) {
+                        gp.ui.choiceNum = 3;
+                    }
+                }
+                if (code == KeyEvent.VK_D) {
+                    gp.ui.choiceNum += 2;
+                    if (gp.ui.choiceNum == 4) {
+                        gp.ui.choiceNum = 0;
+                    }
+                    if (gp.ui.choiceNum == 5) {
+                        gp.ui.choiceNum = 1;
                     }
                 }
             }
             if (code == KeyEvent.VK_SPACE) {
+                if (gp.ui.battleNum != 1) {
+                    gp.ui.choiceNum = 0;
+                }
                 gp.ui.battleNum++;
+            }
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.ui.choiceNum = 0;
+                gp.ui.battleNum--;
+                if (gp.ui.battleNum == -1) {
+                    gp.ui.battleNum = 0;
+                }
             }
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {

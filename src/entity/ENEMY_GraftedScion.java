@@ -8,12 +8,12 @@ public class ENEMY_GraftedScion extends Enemy{
 
     public ENEMY_GraftedScion(GamePanel gp) {
         super(gp);
-        name = "Grafted Scion";
+        name = "GraftedScion";
         maxLife = 100;
         life = maxLife;
         moves = new Move[3];
 
-        setImage("PixelGraftedScion");
+        setImage("GraftedScion");
         setMoves();
 
         solidArea = new Rectangle(0, 0, image.getWidth() * 3, image.getHeight() * 3);
