@@ -179,11 +179,11 @@ public class UI {
 
         g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
         g2.setColor(Color.black);
-        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+        g2.fillRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18);
         g2.setColor(Color.white);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+        g2.fillRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28);
         g2.setColor(Color.red);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+        g2.fillRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28);
     }
 
     public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
@@ -251,21 +251,27 @@ public class UI {
         int screenX = gp.tileSize / 2;
         int screenY = gp.tileSize / 2;
 
-        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
-        g2.setColor(Color.black);
-        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
-        g2.setColor(Color.white);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
-        g2.setColor(Color.red);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+//        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
+//        g2.setColor(Color.black);
+//        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+//        g2.setColor(Color.white);
+//        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+//        g2.setColor(Color.red);
+//        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
 
-        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        g2.setFont(fireRed.deriveFont(40F));
+        g2.setColor(new Color(139, 128, 0));
+        g2.drawString(enemy.name, screenX + 3, screenY + 18 + 30);
+        g2.setColor(Color.YELLOW);
+        g2.drawString(enemy.name, screenX, screenY + 15 + 30);
+
         g2.setColor(Color.black);
-        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+        g2.fillRect(screenX - 8, 10 + screenY + 9 + 30, 410, gp.tileSize - 18);
         g2.setColor(Color.white);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+        g2.fillRect(screenX - 3, 10 + screenY + 14 + 30, 400, gp.tileSize - 28);
         g2.setColor(Color.red);
-        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+        g2.fillRect(screenX - 3, 10 + screenY + 14 + 30, (int) (400 * ((double) enemy.life / enemy.maxLife)), gp.tileSize - 28);
     }
 
     public int getXCenteredText(String text) {
