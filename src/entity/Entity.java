@@ -28,6 +28,8 @@ public class Entity {
     public int maxLife;
     public int life;
 
+    public int attack;
+
     public Move[] moves;
 
     public Entity(GamePanel gp) {

@@ -38,8 +38,12 @@ public class Player extends Entity{
         moves[1] = new Move("Heavy Slash", 60, 6, 2, 0);
         moves[2] = new Move("Lion's Claw", 100, 15, 1, 1);
         moves[3] = new Move("EarthShaker", 150, 30, 2, 2);
+        attack = 1;
     }
 
+    public void determineMove() {
+
+    }
     public void getPlayerImage() {
         try {
             left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/Left1.png"));

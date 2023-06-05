@@ -11,6 +11,7 @@ public class ENEMY_GraftedScion extends Enemy{
         name = "GraftedScion";
         maxLife = 100;
         life = maxLife;
+        attack = 1;
         moves = new Move[3];
 
         setImage("GraftedScion");

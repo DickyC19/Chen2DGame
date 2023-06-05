@@ -64,6 +64,10 @@ public class KeyHandler implements KeyListener {
                         gp.ui.choiceNum = 0;
                     }
                 }
+                if (code == KeyEvent.VK_SPACE) {
+                    gp.ui.choiceNum = 0;
+                    gp.ui.battleNum++;
+                }
             } else if (gp.ui.battleNum == 1) {
                 if (code == KeyEvent.VK_W) {
                     gp.ui.choiceNum--;
@@ -101,20 +105,19 @@ public class KeyHandler implements KeyListener {
                         gp.ui.choiceNum = 1;
                     }
                 }
-            }
-            if (code == KeyEvent.VK_SPACE) {
-                if (gp.ui.battleNum != 1) {
+                if (code == KeyEvent.VK_ESCAPE) {
                     gp.ui.choiceNum = 0;
+                    gp.ui.battleNum--;
                 }
-                gp.ui.battleNum++;
-            }
-            if (code == KeyEvent.VK_ESCAPE) {
-                gp.ui.choiceNum = 0;
-                gp.ui.battleNum--;
-                if (gp.ui.battleNum == -1) {
-                    gp.ui.battleNum = 0;
+                if (code == KeyEvent.VK_SPACE) {
+                    gp.ui.battleNum++;
+                }
+            } else if (gp.ui.battleNum == 2) {
+                if (code == KeyEvent.VK_SPACE) {
+
                 }
             }
+
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {
                 gp.gameState = gp.playState;

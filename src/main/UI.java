@@ -68,6 +68,7 @@ public class UI {
         }
         if (gp.gameState == gp.pauseState) {
             drawBattleScene();
+            drawFightHealth();
         }
         if (gp.gameState == gp.dialogueState) {
             drawHealth();
@@ -122,7 +123,7 @@ public class UI {
             } else if (battleNum == 1) {
                 drawBattleMenu();
             } else if (battleNum == 2) {
-
+                drawFight();
             }
 
             if (enemy.life < 0) {
@@ -148,10 +149,9 @@ public class UI {
     }
 
     public void drawCharacters() {
-        // fix coords
 
         g2.drawImage(character, gp.tileSize, gp.screenHeight - gp.tileSize * 9, character.getWidth() * gp.scale, character.getHeight() * gp.scale, null);
-        g2.drawImage(enemyImage, gp.screenWidth - gp.tileSize, gp.tileSize, null);
+        g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
     }
 
     public void drawDialogueScreen() {
@@ -186,8 +186,6 @@ public class UI {
         g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
     }
 
-
-
     public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
 
         Color c = new Color(0, 0, 0, 210);
@@ -216,6 +214,7 @@ public class UI {
         int x = 0;
         int y = 0;
         g2.setFont(fireRed.deriveFont(40F));
+        g2.setColor(Color.black);
         g2.drawImage(moveList, 0, gp.screenHeight - moveList.getHeight() * gp.scale, gp.screenWidth, moveList.getHeight() * gp.scale, null);
         for (int i = 0; i < gp.player.moves.length / 2; i ++) {
             g2.drawString(gp.player.moves[i].name, gp.tileSize, gp.screenHeight - gp.tileSize * (2 - i) + 15);
@@ -240,6 +239,34 @@ public class UI {
         g2.drawImage(arrow, x, y, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
     }
 
+    public void drawFight() {
+
+        g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
+        g2.drawImage(redArrow, gp.screenWidth - gp.tileSize, gp.screenHeight - gp.tileSize, redArrow.getWidth() * gp.scale, redArrow.getHeight() * gp.scale, null);
+
+
+    }
+
+    public void drawFightHealth() {
+        int screenX = gp.tileSize / 2;
+        int screenY = gp.tileSize / 2;
+
+        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.black);
+        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+        g2.setColor(Color.white);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+        g2.setColor(Color.red);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+
+        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.black);
+        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
+        g2.setColor(Color.white);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
+        g2.setColor(Color.red);
+        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+    }
 
     public int getXCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
