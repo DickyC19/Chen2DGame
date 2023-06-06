@@ -2,6 +2,7 @@ package main;
 
 import entity.Enemy;
 import entity.Entity;
+import entity.Move;
 import object.OBJ_Heart;
 
 import javax.imageio.ImageIO;
@@ -247,7 +248,8 @@ public class UI {
 
         g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
 
-        currentDialogue = "PLAYER  used\n" + gp.player.moves[choiceNum].name;
+        Move move = gp.player.moves[choiceNum];
+        currentDialogue = "PLAYER  used\n" + move.name;
         g2.setFont(fireRed.deriveFont(40F));
         int y = gp.screenHeight - gp.tileSize * 2 + 20;
         for (String line : currentDialogue.split("\n")) {
@@ -258,6 +260,40 @@ public class UI {
             y += 65;
         }
 
+        playAnimation(false, damageCalc(gp.player, move));
+
+        move = enemy.determineMove();
+        currentDialogue = enemy.name + "  used\n" + move.name;
+        g2.setFont(fireRed.deriveFont(40F));
+        y = gp.screenHeight - gp.tileSize * 2 + 20;
+        for (String line : currentDialogue.split("\n")) {
+            g2.setColor(Color.darkGray);
+            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+            g2.setColor(Color.white);
+            g2.drawString(line, gp.tileSize / 2 + 15, y);
+            y += 65;
+        }
+        playAnimation(true, damageCalc(enemy, move));
+
+        battleNum = 0;
+        choiceNum = 0;
+    }
+
+    private void playAnimation(boolean boss, int damage) {
+        if (boss) {
+            enemy.life -=
+            // enemy attacks
+        } else {
+            // player attacks
+        }
+    }
+
+    private int damageCalc(Entity entity, Move move) {
+        if (Math.random() <= move.critRate) {
+            return move.power * entity.attack * 2;
+        } else {
+            return move.power * entity.attack;
+        }
     }
 
     public void drawFightHealth() {
