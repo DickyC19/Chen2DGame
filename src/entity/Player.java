@@ -33,9 +33,11 @@ public class Player extends Entity{
 
         maxLife = 300;
         life = maxLife;
+        maxMana = 50;
+        mana = maxMana;
 
         moves[0] = new Move("Slash", 40, 6, 1, 0);
-        moves[1] = new Move("Heavy Slash", 60, 6, 2, 0);
+        moves[1] = new Move("Heavy Slash", 80, 12, 2, 0);
         moves[2] = new Move("Lion's Claw", 100, 15, 1, 1);
         moves[3] = new Move("EarthShaker", 150, 30, 2, 2);
         attack = 1;

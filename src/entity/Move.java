@@ -7,6 +7,7 @@ public class Move {
     public int critRate;
     public int speed;
     public int cost;
+    public String type;
 
     public Move(String name, int power, int critRate, int speed, int cost) {
         this.name = name;
@@ -14,5 +15,10 @@ public class Move {
         this.critRate = critRate;
         this.speed = speed;
         this.cost = cost;
+        if (cost >= 1) {
+            type = "Special";
+        } else {
+            type = "Normal";
+        }
     }
 }

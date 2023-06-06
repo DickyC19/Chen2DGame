@@ -237,6 +237,11 @@ public class UI {
             y = gp.screenHeight - gp.tileSize - 27;
         }
         g2.drawImage(arrow, x, y, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
+        g2.setFont(fireRed.deriveFont(37F));
+        g2.setColor(Color.black);
+        g2.drawString(String.valueOf(gp.player.moves[choiceNum].power), gp.screenWidth - (gp.tileSize * 5) / 2, gp.screenHeight - gp.tileSize - 38);
+        g2.drawString(gp.player.moves[choiceNum].type,gp.screenWidth - (gp.tileSize * 6) / 2,gp.screenHeight - gp.tileSize + 24);
+
     }
 
     public void drawFight() {
@@ -251,15 +256,23 @@ public class UI {
         int screenX = gp.tileSize / 2;
         int screenY = gp.tileSize / 2;
 
-//        g2.drawImage(heart, screenX, screenY, gp.tileSize, gp.tileSize, null);
-//        g2.setColor(Color.black);
-//        g2.fillRoundRect(screenX + gp.tileSize, screenY + 9, gp.player.maxLife, gp.tileSize - 18, 35, 35);
-//        g2.setColor(Color.white);
-//        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.maxLife - 10, gp.tileSize - 28, 25, 25);
-//        g2.setColor(Color.red);
-//        g2.fillRoundRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28, 25, 25);
+        // Player hp and mp
+        g2.drawImage(heart, gp.screenWidth / 2 - gp.tileSize, gp.screenHeight / 2 + screenY, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.black);
+        g2.fillRect(gp.screenWidth / 2, gp.screenHeight / 2 + screenY + 9, 510, gp.tileSize - 18);
+        g2.setColor(Color.white);
+        g2.fillRect(gp.screenWidth / 2 + 5, gp.screenHeight / 2 + screenY+ 14, 500, gp.tileSize - 28);
+        g2.setColor(Color.red);
+        g2.fillRect(gp.screenWidth / 2 + 5, gp.screenHeight / 2 + screenY + 14, (int) (500 * ((double) gp.player.life / gp.player.maxLife)), gp.tileSize - 28);
 
+        g2.setColor(Color.black);
+        g2.fillRect(gp.screenWidth / 2, gp.screenHeight / 2 + gp.tileSize + 20, 410, gp.tileSize - 18);
+        g2.setColor(Color.white);
+        g2.fillRect(gp.screenWidth / 2 + 5, gp.screenHeight / 2 + gp.tileSize + 25, 400, gp.tileSize - 28);
+        g2.setColor(new Color(96,176,244));
+        g2.fillRect(gp.screenWidth / 2 + 5, gp.screenHeight / 2 + gp.tileSize + 25, (int) (400 * ((double) gp.player.mana / gp.player.maxMana)), gp.tileSize - 28);
 
+        // Enemy Name and HP
         g2.setFont(fireRed.deriveFont(40F));
         g2.setColor(new Color(139, 128, 0));
         g2.drawString(enemy.name, screenX + 3, screenY + 18 + 30);
