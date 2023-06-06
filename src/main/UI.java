@@ -46,7 +46,6 @@ public class UI {
             arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
             fightSelect = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/FightSelect.png"));
             moveList = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/MoveList.png"));
-            redArrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Redarrow.png"));
             textBox = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Textbox.png"));
             InputStream is = getClass().getClassLoader().getResourceAsStream("fonts/firered.ttf");
             fireRed = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(96F);
@@ -247,8 +246,17 @@ public class UI {
     public void drawFight() {
 
         g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
-        g2.drawImage(redArrow, gp.screenWidth - gp.tileSize, gp.screenHeight - gp.tileSize, redArrow.getWidth() * gp.scale, redArrow.getHeight() * gp.scale, null);
 
+        currentDialogue = "PLAYER  used\n" + gp.player.moves[choiceNum].name;
+        g2.setFont(fireRed.deriveFont(40F));
+        int y = gp.screenHeight - gp.tileSize * 2 + 20;
+        for (String line : currentDialogue.split("\n")) {
+            g2.setColor(Color.darkGray);
+            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+            g2.setColor(Color.white);
+            g2.drawString(line, gp.tileSize / 2 + 15, y);
+            y += 65;
+        }
 
     }
 
