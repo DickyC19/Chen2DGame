@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.swing.Timer;
 
 public class UI {
 
@@ -17,7 +18,6 @@ public class UI {
     BufferedImage arrow;
     BufferedImage fightSelect;
     BufferedImage moveList;
-    BufferedImage redArrow;
     BufferedImage textBox;
     BufferedImage enemyImage;
     BufferedImage background1;
@@ -28,20 +28,24 @@ public class UI {
     BufferedImage character;
     GamePanel gp;
     Graphics2D g2;
+    boolean enemyDrawn;
+    Timer timer;
 
     public Enemy enemy;
     public int commandNum = 0;
     public int battleNum = 0;
     public int choiceNum = 0;
+    public int waitNum = 0;
     public Font fireRed;
     public String currentDialogue = "";
 
     public UI(GamePanel gp) {
         this.gp = gp;
-
+        timer = new Timer(1, null);
         Entity heartObj = new OBJ_Heart(gp);
         heart = heartObj.image;
         enemy = null;
+        enemyDrawn = false;
 
         try {
             arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
@@ -68,7 +72,6 @@ public class UI {
         }
         if (gp.gameState == gp.pauseState) {
             drawBattleScene();
-            drawFightHealth();
         }
         if (gp.gameState == gp.dialogueState) {
             drawHealth();
@@ -114,25 +117,27 @@ public class UI {
 
     public void drawBattleScene() {
         if (!gp.monsterDead) {
-
             drawBackground();
-            drawCharacters();
+            drawCharacter();
+            drawEnemy();
+            drawFightHealth();
 
             if (battleNum == 0) {
                 drawChoiceMenu();
             } else if (battleNum == 1) {
                 drawBattleMenu();
             } else if (battleNum == 2) {
+                drawTextBox();
                 drawFight();
             }
-
-            if (enemy.life < 0) {
-                enemy.life = 0;
-                gp.monsterDead = true;
-                gp.gameState = gp.playState;
-            }
         }
+    }
 
+    private void drawTextBox() {
+        while (waitNum == 0) {
+            g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
+        }
+        waitNum = 0;
     }
 
     public void drawBackground() {
@@ -148,10 +153,13 @@ public class UI {
         }
     }
 
-    public void drawCharacters() {
-
+    private void drawCharacter() {
         g2.drawImage(character, gp.tileSize, gp.screenHeight - gp.tileSize * 9, character.getWidth() * gp.scale, character.getHeight() * gp.scale, null);
+    }
+
+    private void drawEnemy() {
         g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        enemyDrawn = true;
     }
 
     public void drawDialogueScreen() {
@@ -245,9 +253,7 @@ public class UI {
     }
 
     public void drawFight() {
-
-        g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
-
+        timer.start();
         Move move = gp.player.moves[choiceNum];
         currentDialogue = "PLAYER  used\n" + move.name;
         g2.setFont(fireRed.deriveFont(40F));
@@ -261,6 +267,11 @@ public class UI {
         }
 
         playAnimation(false, damageCalc(gp.player, move));
+        if (enemy.life < 0 || enemy.life == 0) {
+            enemy.life = 0;
+            gp.monsterDead = true;
+            gp.gameState = gp.playState;
+        }
 
         move = enemy.determineMove();
         currentDialogue = enemy.name + "  used\n" + move.name;
@@ -274,22 +285,46 @@ public class UI {
             y += 65;
         }
         playAnimation(true, damageCalc(enemy, move));
+        if (gp.player.life < 0 || gp.player.life == 0) {
+            gp.player.life = 0;
+        }
 
         battleNum = 0;
         choiceNum = 0;
     }
 
-    private void playAnimation(boolean boss, int damage) {
+    public void playAnimation(boolean boss, int damage) {
+
         if (boss) {
-            enemy.life -=
+            for (int i = 0; i <= damage; i ++) {
+                gp.player.life -= 1;
+                drawBackground();
+                drawCharacter();
+                drawEnemy();
+                drawFightHealth();
+                drawTextBox();
+
+            }
             // enemy attacks
         } else {
-            // player attacks
+            for (int i = 0; i <= damage; i ++) {
+                enemy.life -= 1;
+                drawBackground();
+                drawCharacter();
+                drawEnemy();
+                drawFightHealth();
+                drawTextBox();
+
+
+            }
         }
+            // player attacks
     }
 
+//    while new variable num that waits for space bar
+
     private int damageCalc(Entity entity, Move move) {
-        if (Math.random() <= move.critRate) {
+        if (Math.random() <= move.critRate / 100.0) {
             return move.power * entity.attack * 2;
         } else {
             return move.power * entity.attack;

@@ -114,7 +114,7 @@ public class KeyHandler implements KeyListener {
                 }
             } else if (gp.ui.battleNum == 2) {
                 if (code == KeyEvent.VK_SPACE) {
-
+                    gp.ui.waitNum ++;
                 }
             }
 
