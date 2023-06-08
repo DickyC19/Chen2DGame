@@ -117,10 +117,29 @@ public class KeyHandler implements KeyListener {
 
                 }
             }
-
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {
                 gp.gameState = gp.playState;
+            }
+        } else if (gp.gameState == gp.deathState) {
+            if (code == KeyEvent.VK_W) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 1;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 1) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+            if (code == KeyEvent.VK_SPACE) {
+                if (gp.ui.commandNum == 0) {
+                    Main.reset();
+                } else if (gp.ui.commandNum == 1) {
+                    System.exit(0);
+                }
             }
         }
 

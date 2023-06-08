@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import javax.swing.Timer;
 
 public class UI {
@@ -31,18 +32,22 @@ public class UI {
     boolean enemyDrawn;
     int currentHp;
     int enemyHp;
+    boolean inFight1;
+    boolean inFight2;
+    boolean hadPlayerTurn;
+    boolean hadEnemyTurn;
+    int damage;
+
+    String fightText;
 
     public boolean enemyAttacker;
-    public boolean inFight1;
-    public boolean inFight2;
-    public int damage;
+
     public Enemy enemy;
     public int commandNum = 0;
     public int battleNum = 0;
     public int choiceNum = 0;
     public Font fireRed;
     public String currentDialogue = "";
-
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -55,11 +60,12 @@ public class UI {
         inFight2 = false;
 
         try {
-            arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
-            fightSelect = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/FightSelect.png"));
-            moveList = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/MoveList.png"));
-            textBox = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Textbox.png"));
+            arrow = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png")));
+            fightSelect = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("fight/FightSelect.png")));
+            moveList = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("fight/MoveList.png")));
+            textBox = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("fight/Textbox.png")));
             InputStream is = getClass().getClassLoader().getResourceAsStream("fonts/firered.ttf");
+            assert is != null;
             fireRed = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(96F);
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,6 +92,9 @@ public class UI {
             drawHealth();
             drawDialogueScreen();
         }
+        if (gp.gameState == gp.deathState) {
+            drawGameOver();
+        }
     }
 
     public void drawTitleScreen() {
@@ -95,10 +104,11 @@ public class UI {
         int textY = gp.tileSize * 2;
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/title1.png"));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/title1.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert image != null;
         g2.drawImage(image, gp.screenWidth / 4, gp.tileSize * 3 - 55, image.getWidth(), image.getHeight(), null);
 
         g2.setColor(new Color(139, 128, 0));
@@ -133,6 +143,7 @@ public class UI {
 
             if (battleNum == 0) {
                 drawChoiceMenu();
+                drawText();
             } else if (battleNum == 1) {
                 drawBattleMenu();
             } else if (battleNum == 2) {
@@ -144,6 +155,19 @@ public class UI {
 
     private void drawTextBox() {
         g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
+    }
+    private void drawText() {
+        int y;
+        g2.setFont(fireRed.deriveFont(40F));
+        y = gp.screenHeight - gp.tileSize * 2 + 20;
+        currentDialogue = "What  will\nPLAYER  do?";
+        for (String line : currentDialogue.split("\n")) {
+            g2.setColor(Color.darkGray);
+            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+            g2.setColor(Color.white);
+            g2.drawString(line, gp.tileSize / 2 + 15, y);
+            y += 65;
+        }
     }
 
     public void drawBackground() {
@@ -258,72 +282,74 @@ public class UI {
 
     }
 
+    private void drawGameOver() {
+
+    }
+
     public void drawFight() {
-        int y;
         Move move;
         currentHp = gp.player.life;
         enemyHp = enemy.life;
 
-        if (!inFight2) {
+        if (!inFight2 && !hadPlayerTurn) {
             move = gp.player.moves[choiceNum];
-            currentDialogue = "PLAYER  used\n" + move.name;
-            g2.setFont(fireRed.deriveFont(40F));
-            y = gp.screenHeight - gp.tileSize * 2 + 20;
-            for (String line : currentDialogue.split("\n")) {
-                g2.setColor(Color.darkGray);
-                g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
-                g2.setColor(Color.white);
-                g2.drawString(line, gp.tileSize / 2 + 15, y);
-                y += 65;
-            }
+            fightText = "PLAYER  used\n" + move.name;
+
+            drawFightText(fightText);
+
             damageCalc(gp.player, move);
-            if (enemy.life < 0 || enemy.life == 0) {
-                enemyHp = 0;
-            } else {
-                enemyHp = enemy.life - damage;
-            }
+            hadPlayerTurn = false;
+            enemyHp = enemy.life - damage;
+
             playAnimation(false);
         }
 
         if (enemy.life == 0) {
+            enemyHp = 0;
             gp.monsterDead = true;
             gp.gameState = gp.playState;
         }
 
-        if (!inFight1) {
+        if (!inFight1 && !hadEnemyTurn && enemyHp != 0) {
             // enemy's move
             move = enemy.determineMove();
-            currentDialogue = enemy.name + "  used\n" + move.name;
-            g2.setFont(fireRed.deriveFont(40F));
-            y = gp.screenHeight - gp.tileSize * 2 + 20;
-            for (String line : currentDialogue.split("\n")) {
-                g2.setColor(Color.darkGray);
-                g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
-                g2.setColor(Color.white);
-                g2.drawString(line, gp.tileSize / 2 + 15, y);
-                y += 65;
-            }
+
+            fightText = enemy.name + "  used\n" + move.name;
+            drawFightText(fightText);
+
             damageCalc(enemy, move);
-            if (gp.player.life < 0 || gp.player.life == 0) {
-                currentHp = 0;
-            } else {
-                currentHp = gp.player.life - damage;
-            }
+            hadEnemyTurn = false;
+            currentHp = gp.player.life - damage;
+
             playAnimation(true);
-
         }
-        if (gp.player.life < 0 || gp.player.life == 0) {
-            gp.player.life = 0;
+        if (gp.player.life == 0) {
+            currentHp = 0;
+            battleNum = 0;
+            choiceNum = 0;
+            gp.gameState = gp.deathState;
         }
 
+        if (hadEnemyTurn && hadPlayerTurn) {
+            hadPlayerTurn = false;
+            hadEnemyTurn = false;
+            battleNum = 0;
+            choiceNum = 0;
+        }
     }
 
-    public void drawEverything() {
-        drawBackground();
-        drawCharacter();
-        drawEnemy();
-        drawFightHealth();
-        drawTextBox();
+    private void drawFightText(String dialogue) {
+        int y;
+        g2.setFont(fireRed.deriveFont(40F));
+        currentDialogue = dialogue;
+        y = gp.screenHeight - gp.tileSize * 2 + 20;
+        for (String line : currentDialogue.split("\n")) {
+            g2.setColor(Color.darkGray);
+            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+            g2.setColor(Color.white);
+            g2.drawString(line, gp.tileSize / 2 + 15, y);
+            y += 65;
+        }
     }
 
     public void playAnimation(boolean boss) {
@@ -332,6 +358,15 @@ public class UI {
         drawEnemy();
         drawFightHealth();
         drawTextBox();
+        drawFightText(fightText);
+
+        if (currentHp < 0) {
+            currentHp = 0;
+        }
+        if (enemyHp < 0) {
+            enemyHp = 0;
+        }
+
         if (boss) {
             inFight2 = true;
             enemyAttacker = true;
@@ -341,8 +376,9 @@ public class UI {
                 gp.player.life -= 1;
             } else {
                 inFight2 = false;
+                hadEnemyTurn = true;
             }
-            // enemy attacks
+
         } else {
             inFight1 = true;
             enemyAttacker = false;
@@ -352,6 +388,7 @@ public class UI {
                 enemy.life -= 1;
             } else {
                 inFight1 = false;
+                hadPlayerTurn = true;
             }
         }
 
