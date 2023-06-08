@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import javax.swing.Timer;
 
 public class UI {
 
@@ -126,6 +125,34 @@ public class UI {
         }
 
         text = "QUIT ";
+        textX = getXCenteredText((text));
+        textY += gp.tileSize;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 1) {
+            g2.drawString(">", textX - gp.tileSize, textY);
+        }
+    }
+    private void drawGameOver() {
+        g2.setFont(fireRed);
+        String text = "Game Over";
+        int textX = getXCenteredText(text);
+        int textY = gp.tileSize * 2;
+
+        g2.setColor(new Color(100, 0, 0));
+        g2.drawString(text, textX + 5, textY + 5);
+        g2.setColor(Color.RED);
+        g2.drawString(text, textX, textY);
+
+        g2.setFont(fireRed.deriveFont(48F));
+        text = "PLAY AGAIN";
+        textX = getXCenteredText((text));
+        textY += gp.tileSize * 9;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 0) {
+            g2.drawString(">", textX - gp.tileSize, textY);
+        }
+
+        text = "QUIT";
         textX = getXCenteredText((text));
         textY += gp.tileSize;
         g2.drawString(text, textX, textY);
@@ -282,8 +309,18 @@ public class UI {
 
     }
 
-    private void drawGameOver() {
-
+    private void drawFightText(String dialogue) {
+        int y;
+        g2.setFont(fireRed.deriveFont(40F));
+        currentDialogue = dialogue;
+        y = gp.screenHeight - gp.tileSize * 2 + 20;
+        for (String line : currentDialogue.split("\n")) {
+            g2.setColor(Color.darkGray);
+            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+            g2.setColor(Color.white);
+            g2.drawString(line, gp.tileSize / 2 + 15, y);
+            y += 65;
+        }
     }
 
     public void drawFight() {
@@ -306,6 +343,12 @@ public class UI {
 
         if (enemy.life == 0) {
             enemyHp = 0;
+            hadPlayerTurn = false;
+            hadEnemyTurn = false;
+            inFight2 = false;
+            inFight1 = false;
+            battleNum = 0;
+            choiceNum = 0;
             gp.monsterDead = true;
             gp.gameState = gp.playState;
         }
@@ -333,22 +376,10 @@ public class UI {
         if (hadEnemyTurn && hadPlayerTurn) {
             hadPlayerTurn = false;
             hadEnemyTurn = false;
+            inFight2 = false;
+            inFight1 = false;
             battleNum = 0;
             choiceNum = 0;
-        }
-    }
-
-    private void drawFightText(String dialogue) {
-        int y;
-        g2.setFont(fireRed.deriveFont(40F));
-        currentDialogue = dialogue;
-        y = gp.screenHeight - gp.tileSize * 2 + 20;
-        for (String line : currentDialogue.split("\n")) {
-            g2.setColor(Color.darkGray);
-            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
-            g2.setColor(Color.white);
-            g2.drawString(line, gp.tileSize / 2 + 15, y);
-            y += 65;
         }
     }
 
@@ -446,45 +477,45 @@ public class UI {
     public void setImages() {
         if (gp.tileM.getCount() <= 4) {
             try {
-                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave1.png"));
-                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave2.png"));
-                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave3.png"));
-                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave4.png"));
-                background5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/cave5.png"));
+                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave1.png")));
+                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave2.png")));
+                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave3.png")));
+                background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave4.png")));
+                background5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave5.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (gp.tileM.getCount() <= 7) {
             try {
-                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain3.png"));
-                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain2.png"));
-                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain1.png"));
+                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain3.png")));
+                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain2.png")));
+                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain1.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (gp.tileM.getCount() <= 9) {
             try {
-                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill1.png"));
-                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill2.png"));
-                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill3.png"));
-                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/hill4.png"));
+                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill1.png")));
+                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill2.png")));
+                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill3.png")));
+                background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill4.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                background1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple1.png"));
-                background2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple2.png"));
-                background3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple3.png"));
-                background4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("backgrounds/temple4.png"));
+                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple1.png")));
+                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple2.png")));
+                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple3.png")));
+                background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple4.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         try {
-            enemyImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemies/" + enemy.name + ".png"));
-            character = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/pixelknight.png"));
+            enemyImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("enemies/" + enemy.name + ".png")));
+            character = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/pixelknight.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
