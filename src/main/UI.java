@@ -30,22 +30,32 @@ public class UI {
     Graphics2D g2;
     boolean enemyDrawn;
     Timer timer;
+    int currentHp;
+    int enemyHp;
 
+    public boolean enemyAttacker;
+    public boolean inFight1;
+    public boolean inFight2;
+    public int damage;
     public Enemy enemy;
     public int commandNum = 0;
     public int battleNum = 0;
     public int choiceNum = 0;
-    public int waitNum = 0;
     public Font fireRed;
     public String currentDialogue = "";
 
+
     public UI(GamePanel gp) {
         this.gp = gp;
+
         timer = new Timer(1, null);
+
         Entity heartObj = new OBJ_Heart(gp);
         heart = heartObj.image;
         enemy = null;
         enemyDrawn = false;
+        inFight1 = false;
+        inFight2 = false;
 
         try {
             arrow = ImageIO.read(getClass().getClassLoader().getResourceAsStream("fight/Arrow.png"));
@@ -70,8 +80,10 @@ public class UI {
         if (gp.gameState == gp.playState) {
             drawHealth();
         }
-        if (gp.gameState == gp.pauseState) {
+        if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState) {
             drawBattleScene();
+        } else if (inFight2 || inFight1) {
+            playAnimation(enemyAttacker);
         }
         if (gp.gameState == gp.dialogueState) {
             drawHealth();
@@ -134,10 +146,7 @@ public class UI {
     }
 
     private void drawTextBox() {
-        while (waitNum == 0) {
-            g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
-        }
-        waitNum = 0;
+        g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, gp.screenWidth, textBox.getHeight() * gp.scale, null);
     }
 
     public void drawBackground() {
@@ -254,80 +263,100 @@ public class UI {
 
     public void drawFight() {
         timer.start();
-        Move move = gp.player.moves[choiceNum];
-        currentDialogue = "PLAYER  used\n" + move.name;
-        g2.setFont(fireRed.deriveFont(40F));
-        int y = gp.screenHeight - gp.tileSize * 2 + 20;
-        for (String line : currentDialogue.split("\n")) {
-            g2.setColor(Color.darkGray);
-            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
-            g2.setColor(Color.white);
-            g2.drawString(line, gp.tileSize / 2 + 15, y);
-            y += 65;
+        int y;
+        Move move;
+        currentHp = gp.player.life;
+        enemyHp = enemy.life;
+
+        if (!inFight2) {
+            move = gp.player.moves[choiceNum];
+            currentDialogue = "PLAYER  used\n" + move.name;
+            g2.setFont(fireRed.deriveFont(40F));
+            y = gp.screenHeight - gp.tileSize * 2 + 20;
+            for (String line : currentDialogue.split("\n")) {
+                g2.setColor(Color.darkGray);
+                g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+                g2.setColor(Color.white);
+                g2.drawString(line, gp.tileSize / 2 + 15, y);
+                y += 65;
+            }
+            damageCalc(gp.player, move);
+            playAnimation(false);
         }
 
-        playAnimation(false, damageCalc(gp.player, move));
         if (enemy.life < 0 || enemy.life == 0) {
             enemy.life = 0;
             gp.monsterDead = true;
             gp.gameState = gp.playState;
         }
 
-        move = enemy.determineMove();
-        currentDialogue = enemy.name + "  used\n" + move.name;
-        g2.setFont(fireRed.deriveFont(40F));
-        y = gp.screenHeight - gp.tileSize * 2 + 20;
-        for (String line : currentDialogue.split("\n")) {
-            g2.setColor(Color.darkGray);
-            g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
-            g2.setColor(Color.white);
-            g2.drawString(line, gp.tileSize / 2 + 15, y);
-            y += 65;
+
+        if (!inFight1) {
+            // enemy's move
+            move = enemy.determineMove();
+            currentDialogue = enemy.name + "  used\n" + move.name;
+            g2.setFont(fireRed.deriveFont(40F));
+            y = gp.screenHeight - gp.tileSize * 2 + 20;
+            for (String line : currentDialogue.split("\n")) {
+                g2.setColor(Color.darkGray);
+                g2.drawString(line, gp.tileSize / 2 + 19, y + 3);
+                g2.setColor(Color.white);
+                g2.drawString(line, gp.tileSize / 2 + 15, y);
+                y += 65;
+            }
+            damageCalc(enemy, move);
+            playAnimation(true);
+
         }
-        playAnimation(true, damageCalc(enemy, move));
         if (gp.player.life < 0 || gp.player.life == 0) {
             gp.player.life = 0;
         }
 
-        battleNum = 0;
-        choiceNum = 0;
     }
 
-    public void playAnimation(boolean boss, int damage) {
+    public void drawEverything() {
+        drawBackground();
+        drawCharacter();
+        drawEnemy();
+        drawFightHealth();
+        drawTextBox();
+    }
 
+    public void playAnimation(boolean boss) {
+        System.out.println("asdfa");
+        drawBackground();
+        drawCharacter();
+        drawEnemy();
+        drawFightHealth();
+        drawTextBox();
         if (boss) {
-            for (int i = 0; i <= damage; i ++) {
+            enemyAttacker = true;
+            if (gp.player.life != currentHp - damage) {
+                System.out.println("adsfa");
                 gp.player.life -= 1;
-                drawBackground();
-                drawCharacter();
-                drawEnemy();
-                drawFightHealth();
-                drawTextBox();
-
+            } else {
+                inFight1 = false;
             }
             // enemy attacks
         } else {
-            for (int i = 0; i <= damage; i ++) {
+            inFight1 = true;
+            enemyAttacker = false;
+            if (enemy.life != enemyHp - damage) {
                 enemy.life -= 1;
-                drawBackground();
-                drawCharacter();
-                drawEnemy();
-                drawFightHealth();
-                drawTextBox();
 
-
+            } else {
+                inFight1 = false;
             }
         }
-            // player attacks
+
     }
 
-//    while new variable num that waits for space bar
 
-    private int damageCalc(Entity entity, Move move) {
+    private void damageCalc(Entity entity, Move move) {
         if (Math.random() <= move.critRate / 100.0) {
-            return move.power * entity.attack * 2;
+            damage = move.power * entity.attack * 2;
         } else {
-            return move.power * entity.attack;
+            damage = move.power * entity.attack;
         }
     }
 

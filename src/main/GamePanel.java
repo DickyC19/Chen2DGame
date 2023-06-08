@@ -143,10 +143,6 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw(g2);
         } else {
             ui.draw(g2);
-//        } else {
-//
-//            ui.playAnimation();
-
         }
         g2.dispose();
     }
