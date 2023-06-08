@@ -29,7 +29,6 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     boolean enemyDrawn;
-    Timer timer;
     int currentHp;
     int enemyHp;
 
@@ -47,8 +46,6 @@ public class UI {
 
     public UI(GamePanel gp) {
         this.gp = gp;
-
-        timer = new Timer(1, null);
 
         Entity heartObj = new OBJ_Heart(gp);
         heart = heartObj.image;
@@ -262,7 +259,6 @@ public class UI {
     }
 
     public void drawFight() {
-        timer.start();
         int y;
         Move move;
         currentHp = gp.player.life;
@@ -281,15 +277,18 @@ public class UI {
                 y += 65;
             }
             damageCalc(gp.player, move);
+            if (enemy.life < 0 || enemy.life == 0) {
+                enemyHp = 0;
+            } else {
+                enemyHp = enemy.life - damage;
+            }
             playAnimation(false);
         }
 
-        if (enemy.life < 0 || enemy.life == 0) {
-            enemy.life = 0;
+        if (enemy.life == 0) {
             gp.monsterDead = true;
             gp.gameState = gp.playState;
         }
-
 
         if (!inFight1) {
             // enemy's move
@@ -305,6 +304,11 @@ public class UI {
                 y += 65;
             }
             damageCalc(enemy, move);
+            if (gp.player.life < 0 || gp.player.life == 0) {
+                currentHp = 0;
+            } else {
+                currentHp = gp.player.life - damage;
+            }
             playAnimation(true);
 
         }
@@ -323,27 +327,29 @@ public class UI {
     }
 
     public void playAnimation(boolean boss) {
-        System.out.println("asdfa");
         drawBackground();
         drawCharacter();
         drawEnemy();
         drawFightHealth();
         drawTextBox();
         if (boss) {
+            inFight2 = true;
             enemyAttacker = true;
-            if (gp.player.life != currentHp - damage) {
-                System.out.println("adsfa");
+            if (gp.player.life > currentHp) {
+                System.out.println(gp.player.life);
+                System.out.println(currentHp);
                 gp.player.life -= 1;
             } else {
-                inFight1 = false;
+                inFight2 = false;
             }
             // enemy attacks
         } else {
             inFight1 = true;
             enemyAttacker = false;
-            if (enemy.life != enemyHp - damage) {
+            if (enemy.life > enemyHp) {
+                System.out.println(enemy.life);
+                System.out.println(enemyHp);
                 enemy.life -= 1;
-
             } else {
                 inFight1 = false;
             }
