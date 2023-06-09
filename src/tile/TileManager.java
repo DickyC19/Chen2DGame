@@ -21,7 +21,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
         maps = new String[]{"maps/map00.txt", "maps/map01.txt", "maps/map02.txt", "maps/map03.txt", "maps/map04.txt", "maps/map05.txt", "maps/map06.txt", "maps/map07.txt", "maps/map08.txt", "maps/map09.txt"};
-        tile = new Tile[39];
+        tile = new Tile[50];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenCol];
         count = 0;
         getTileImage();
@@ -52,6 +52,10 @@ public class TileManager {
             setUp(12, "012", false);
             setUp(17, "017", false);
             setUp(38, "038", true);
+            setUp(39, "039", true);
+            setUp(40, "040", true);
+            setUp(41, "041", true);
+            setUp(42, "042", true);
     }
 
     public void setUp(int index, String imagePath, boolean collision) {

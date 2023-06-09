@@ -427,6 +427,14 @@ public class UI {
             }
         }
 
+
+
+
+
+
+        // "congrats" you win, PLayer receives xxxx souls
+        // make it so that it plays until the enemy fully drops out of the screen
+        // MAKE opacity a variable of y level
     }
 
 
@@ -481,16 +489,7 @@ public class UI {
     public void setImages() {
         if (gp.tileM.getCount() <= 4) {
             try {
-                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave1.png")));
-                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave2.png")));
-                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave3.png")));
-                background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave4.png")));
-                background5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave5.png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (gp.tileM.getCount() <= 7) {
-            try {
+
                 background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain3.png")));
                 background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain2.png")));
                 background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain1.png")));
@@ -499,13 +498,23 @@ public class UI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (gp.tileM.getCount() <= 9) {
+        } else if (gp.tileM.getCount() <= 7) {
             try {
                 background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill1.png")));
                 background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill2.png")));
                 background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill3.png")));
                 background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill4.png")));
                 background5 = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (gp.tileM.getCount() <= 9) {
+            try {
+                background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave1.png")));
+                background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave2.png")));
+                background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave3.png")));
+                background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave4.png")));
+                background5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/cave5.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
