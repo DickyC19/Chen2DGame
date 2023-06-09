@@ -61,6 +61,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpMonsters() {
         monsters[0] = new ENEMY_GraftedScion(this);
+
+
+
+
+
+
+
+
+
     }
 
     public Enemy getCurrentMonster() {

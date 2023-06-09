@@ -4,17 +4,17 @@ import main.GamePanel;
 
 import java.awt.*;
 
-public class ENEMY_GraftedScion extends Enemy{
+public class ENEMY_TreeSentinel extends Enemy{
 
-    public ENEMY_GraftedScion(GamePanel gp) {
+    public ENEMY_TreeSentinel(GamePanel gp) {
         super(gp);
-        name = "GraftedScion";
-        maxLife = 50 * gp.difficulty;
+        name = "TreeSentinel";
+        maxLife = 75 * gp.difficulty;
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
 
-        setImage("GraftedScion");
+        setImage("TreeSentinel");
         setMoves();
 
         solidArea = new Rectangle(0, 0, image.getWidth() * 3, image.getHeight() * 3);
@@ -25,9 +25,9 @@ public class ENEMY_GraftedScion extends Enemy{
     }
 
     public void setMoves() {
-        moves[0] = new Move("Slash", 20, 6, 1, 0);
-        moves[1] = new Move("Shield Slam", 30, 6, 1, 0);
-        moves[2] = new Move("Golden Tempering", 50, 6, 2, 0);
+        moves[0] = new Move("Rearing Slam", 25, 6, 1, 0);
+        moves[1] = new Move("Shield Crush", 35, 6, 1, 0);
+        moves[2] = new Move("Golden Retaliation", 55, 6, 2, 0);
     }
 
 
