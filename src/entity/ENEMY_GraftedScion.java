@@ -17,11 +17,11 @@ public class ENEMY_GraftedScion extends Enemy{
         setImage("GraftedScion");
         setMoves();
 
-        solidArea = new Rectangle(0, 0, image.getWidth() * 3, image.getHeight() * 3);
-        x = gp.screenWidth / 5;
-        y = - gp.tileSize;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        solidArea = new Rectangle(0, 0, image.getWidth() * 2, image.getHeight() * 2);
+        x = gp.screenWidth / 3;
+        y =  - gp.tileSize / 3;
+        solidAreaDefaultX = 0;
+        solidAreaDefaultY = 0;
     }
 
     public void setMoves() {

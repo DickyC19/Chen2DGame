@@ -119,6 +119,4 @@ public class TileManager {
             }
         }
     }
-
-    // https://drive.google.com/drive/folders/1OBRM8M3qCNAfJDCaldg62yFMiyFaKgYx
 }

@@ -37,9 +37,9 @@ public class Player extends Entity{
         mana = maxMana;
 
         moves[0] = new Move("Slash", 40, 6, 1, 0);
-        moves[1] = new Move("Heavy Slash", 80, 12, 2, 0);
-        moves[2] = new Move("Lion's Claw", 100, 15, 1, 1);
-        moves[3] = new Move("EarthShaker", 150, 30, 2, 2);
+        moves[1] = new Move("Heavy Slash", 70, 12, 2, 1);
+        moves[2] = new Move("Lion's Claw", 100, 15, 1, 3);
+        moves[3] = new Move("EarthShaker", 120, 30, 2, 5);
         attack = 1;
     }
 

@@ -1,9 +1,6 @@
 package main;
 
-import entity.ENEMY_GraftedScion;
-import entity.Enemy;
-import entity.NPC_OldMan;
-import entity.Player;
+import entity.*;
 import tile.TileManager;
 
 import javax.swing.JPanel;
@@ -33,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public Player player = new Player(this, keyH);
     public NPC_OldMan oldMan = new NPC_OldMan(this);
-    public Enemy[] monsters = new Enemy[9];
+    public Enemy[] monsters = new Enemy[11];
     public boolean monsterDead = true;
 
     public int gameState;
@@ -61,15 +58,16 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpMonsters() {
         monsters[0] = new ENEMY_GraftedScion(this);
-
-
-
-
-
-
-
-
-
+        monsters[1] = new ENEMY_TreeSentinel(this);
+        monsters[2] = new ENEMY_GodrickTheGrafted(this);
+        monsters[3] = new ENEMY_GlintstoneDragon(this);
+        monsters[4] = new ENEMY_RedWolfOfRadagon(this);
+        monsters[5] = new ENEMY_Rennala(this);
+        monsters[6] = new ENEMY_FireGiant(this);
+        monsters[7] = new ENEMY_BeastClergyMan(this);
+        monsters[8] = new ENEMY_Radagon(this);
+        monsters[9] = new ENEMY_BlackBladeMaliketh(this);
+        monsters[10] = new ENEMY_EldenBeast(this);
     }
 
     public Enemy getCurrentMonster() {
@@ -108,8 +106,13 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (gameState == playState || gameState == dialogueState) {
             if (player.x == screenWidth) {
+                System.out.println(tileM.getCount());
+                if (tileM.getCount() == 1 || tileM.getCount() == 4 || tileM.getCount() == 7) {
+                    player.x = tileSize;
+                } else {
+                    player.x = 0;
+                }
                 tileM.loadMap();
-                player.x = 0;
                 ui.enemy = monsters[tileM.getCount() - 2];
                 ui.setImages();
                 monsters[tileM.getCount() - 2].resetHp();
@@ -121,14 +124,14 @@ public class GamePanel extends JPanel implements Runnable{
                 ui.setImages();
                 monsters[tileM.getCount() - 2].resetHp();
             } else if (player.y == screenHeight) {
-                player.x = 0;
+                player.x = tileSize;
                 player.y = tileSize * 6;
                 difficulty = 1;
                 tileM.loadMap();
                 ui.enemy = monsters[tileM.getCount() - 2];
                 ui.setImages();
             } else if (player.y < 0) {
-                player.x = 0;
+                player.x = tileSize;
                 player.y = tileSize * 6;
                 difficulty = 3;
                 tileM.loadMap();

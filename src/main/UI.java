@@ -215,7 +215,11 @@ public class UI {
     }
 
     private void drawEnemy() {
-        g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        if (enemy.name.equals("RedWolfOfRadagon")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 6 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        }
         enemyDrawn = true;
     }
 
@@ -490,6 +494,8 @@ public class UI {
                 background1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain3.png")));
                 background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain2.png")));
                 background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/mountain1.png")));
+                background4 = null;
+                background5 = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -499,6 +505,7 @@ public class UI {
                 background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill2.png")));
                 background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill3.png")));
                 background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/hill4.png")));
+                background5 = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -508,6 +515,7 @@ public class UI {
                 background2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple2.png")));
                 background3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple3.png")));
                 background4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("backgrounds/temple4.png")));
+                background5 = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
