@@ -13,7 +13,7 @@ public class ENEMY_Rennala extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 225 * gp.difficulty;
         setImage("Rennala");
         setMoves();
 

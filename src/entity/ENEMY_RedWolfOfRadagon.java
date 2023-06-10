@@ -13,7 +13,7 @@ public class ENEMY_RedWolfOfRadagon extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 200 * gp.difficulty;
         setImage("RedWolfOfRadagon");
         setMoves();
 

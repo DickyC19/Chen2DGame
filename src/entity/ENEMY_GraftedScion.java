@@ -13,7 +13,7 @@ public class ENEMY_GraftedScion extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 100 * gp.difficulty;
         setImage("GraftedScion");
         setMoves();
 

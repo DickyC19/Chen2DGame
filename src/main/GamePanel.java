@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public Player player = new Player(this, keyH);
     public NPC_OldMan oldMan = new NPC_OldMan(this);
+    public NPC_Merchant merchant = new NPC_Merchant(this);
     public Enemy[] monsters = new Enemy[11];
     public boolean monsterDead = true;
 
@@ -39,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int deathState = 4;
+    public final int tradeState = 5;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -104,7 +106,7 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameState == playState || gameState == dialogueState) {
+        if (gameState == playState || gameState == dialogueState || gameState == tradeState) {
             if (player.x == screenWidth) {
                 System.out.println(tileM.getCount());
                 if (tileM.getCount() == 1 || tileM.getCount() == 4 || tileM.getCount() == 7) {
@@ -145,6 +147,12 @@ public class GamePanel extends JPanel implements Runnable{
                 oldMan.drawNPC(g2);
             } else {
                 oldMan.setDrawn(false);
+            }
+
+            if (tileM.getCount() == 4 || tileM.getCount() == 7) {
+                merchant.drawNPC(g2);
+            } else {
+                merchant.setDrawn(false);
             }
 
             if (tileM.getCount() > 1 && !monsterDead) {

@@ -12,6 +12,7 @@ public class Enemy extends Entity {
     public int maxLife;
     public int life;
     public boolean isDrawn;
+    public int souls;
 
     public Enemy(GamePanel gp) {
         super(gp);

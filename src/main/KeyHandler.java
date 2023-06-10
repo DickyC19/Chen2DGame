@@ -141,6 +141,8 @@ public class KeyHandler implements KeyListener {
                     System.exit(0);
                 }
             }
+        } else if (gp.gameState == gp.tradeState) {
+
         }
 
     }

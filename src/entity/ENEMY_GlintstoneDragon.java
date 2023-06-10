@@ -13,7 +13,7 @@ public class ENEMY_GlintstoneDragon extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 175 * gp.difficulty;
         setImage("GlintstoneDragon");
         setMoves();
 

@@ -13,7 +13,7 @@ public class ENEMY_TreeSentinel extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 125 * gp.difficulty;
         setImage("TreeSentinel");
         setMoves();
 

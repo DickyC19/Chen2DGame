@@ -13,7 +13,7 @@ public class ENEMY_GodrickTheGrafted extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 150 * gp.difficulty;
         setImage("GodrickTheGrafted");
         setMoves();
 

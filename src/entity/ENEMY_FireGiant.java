@@ -13,7 +13,7 @@ public class ENEMY_FireGiant extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 275 * gp.difficulty;
         setImage("FireGiant");
         setMoves();
 

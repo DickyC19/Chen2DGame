@@ -13,7 +13,7 @@ public class ENEMY_BlackBladeMaliketh extends Enemy{
         life = maxLife;
         attack = gp.difficulty;
         moves = new Move[3];
-
+        souls = 300 * gp.difficulty;
         setImage("BlackBladeMaliketh");
         setMoves();
 

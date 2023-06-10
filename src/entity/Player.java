@@ -11,6 +11,8 @@ import java.io.IOException;
 public class Player extends Entity{
     KeyHandler keyH;
     String previousDirection;
+    int potions;
+    int mpPotions;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -35,6 +37,8 @@ public class Player extends Entity{
         life = maxLife;
         maxMana = 50;
         mana = maxMana;
+        potions = 1;
+        mpPotions = 0;
 
         moves[0] = new Move("Slash", 40, 6, 1, 0);
         moves[1] = new Move("Heavy Slash", 70, 12, 2, 1);
@@ -43,9 +47,14 @@ public class Player extends Entity{
         attack = 1;
     }
 
-    public void determineMove() {
-
+    public void updateValues(int health, int mana, int attack, int potions, int manaPotions) {
+        maxLife += health;
+        maxMana += mana;
+        this.attack += attack;
+        this.potions += potions;
+        mpPotions += manaPotions;
     }
+
     public void getPlayerImage() {
         try {
             left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/Left1.png"));
@@ -86,6 +95,10 @@ public class Player extends Entity{
                 interactNPC(gp.collisionChecker.checkEntity(this, gp.oldMan));
             }
 
+            if (gp.merchant.isDrawn) {
+                interactNPC(gp.collisionChecker.checkEntity(this, gp.merchant));
+            }
+
             if (!gp.monsterDead) {
                 interactEnemy(gp.collisionChecker.checkEntity(this, gp.monsters[0]));
             }
@@ -109,10 +122,6 @@ public class Player extends Entity{
                 spriteCounter = 0;
             }
         }
-    }
-
-    public void battleUpdate() {
-
     }
 
     public void draw(Graphics2D g2) {
@@ -159,9 +168,16 @@ public class Player extends Entity{
 
     public void interactNPC(boolean collided) {
         if (collided) {
-            if (gp.keyH.spacePressed) {
-                gp.gameState = gp.dialogueState;
-                gp.oldMan.speak();
+            if (gp.merchant.isDrawn) {
+                if (gp.keyH.spacePressed) {
+                    gp.gameState = gp.dialogueState;
+                    gp.merchant.speak();
+                }
+            } else {
+                if (gp.keyH.spacePressed) {
+                    gp.gameState = gp.dialogueState;
+                    gp.oldMan.speak();
+                }
             }
         }
         gp.keyH.spacePressed = false;

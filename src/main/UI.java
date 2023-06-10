@@ -35,7 +35,9 @@ public class UI {
     boolean inFight2;
     boolean hadPlayerTurn;
     boolean hadEnemyTurn;
+    boolean hasWon;
     int damage;
+    int enemyY;
 
     String fightText;
 
@@ -84,8 +86,10 @@ public class UI {
         }
         if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState) {
             drawBattleScene();
-        } else if (inFight2 || inFight1) {
+        } else if (inFight2 || inFight1 && !hasWon) {
             playAnimation(enemyAttacker);
+        } else if (hasWon) {
+            playWinAnimation();
         }
         if (gp.gameState == gp.dialogueState) {
             drawHealth();
@@ -93,6 +97,10 @@ public class UI {
         }
         if (gp.gameState == gp.deathState) {
             drawGameOver();
+        }
+        if (gp.gameState == gp.tradeState) {
+            drawDialogueScreen();
+            drawTradeMenu();
         }
     }
 
@@ -223,6 +231,15 @@ public class UI {
         enemyDrawn = true;
     }
 
+    private void drawEnemyFalling(int y ) {
+        if (enemy.name.equals("RedWolfOfRadagon")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 6 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        }
+        enemyDrawn = true;
+    }
+
     public void drawDialogueScreen() {
         int dialogueX = gp.tileSize * 2;
         int dialogueY = gp.tileSize / 2;
@@ -240,7 +257,6 @@ public class UI {
             dialogueY += 40;
         }
     }
-
 
     public void drawHealth() {
         int screenX = gp.tileSize / 2;
@@ -346,15 +362,25 @@ public class UI {
         }
 
         if (enemy.life == 0) {
-            enemyHp = 0;
             hadPlayerTurn = false;
             hadEnemyTurn = false;
             inFight2 = false;
             inFight1 = false;
             battleNum = 0;
             choiceNum = 0;
-            gp.monsterDead = true;
-            gp.gameState = gp.playState;
+            if (enemy.name.equals("BeastClergyMan") || enemy.name.equals("Radagon")) {
+                enemy = gp.monsters[gp.tileM.getCount()];
+                setImages();
+            } else {
+                if (enemyY >= 32) {
+                    enemyHp = 0;
+                    gp.monsterDead = true;
+                    gp.gameState = gp.playState;
+                } else {
+                    playWinAnimation();
+                }
+
+            }
         }
 
         if (!inFight1 && !hadEnemyTurn && enemyHp != 0) {
@@ -428,13 +454,19 @@ public class UI {
         }
 
 
-
-
-
-
         // "congrats" you win, PLayer receives xxxx souls
         // make it so that it plays until the enemy fully drops out of the screen
         // MAKE opacity a variable of y level
+    }
+
+    private void playWinAnimation() {
+        drawBackground();
+        drawCharacter();
+        drawFightHealth();
+        drawTextBox();
+        drawEnemy();
+
+
     }
 
 
@@ -446,7 +478,7 @@ public class UI {
         }
     }
 
-    public void drawFightHealth() {
+    private void drawFightHealth() {
         int screenX = gp.tileSize / 2;
         int screenY = gp.tileSize / 2;
 
@@ -479,6 +511,25 @@ public class UI {
         g2.fillRect(screenX - 3, 10 + screenY + 14 + 30, 400, gp.tileSize - 28);
         g2.setColor(Color.red);
         g2.fillRect(screenX - 3, 10 + screenY + 14 + 30, (int) (400 * ((double) enemy.life / enemy.maxLife)), gp.tileSize - 28);
+    }
+
+    private void drawTradeMenu() {
+        int dialogueX = gp.tileSize * 13;
+        int dialogueY = gp.tileSize * 4;
+        int dialogueWidth = gp.tileSize * 3;
+        int dialogueHeight = (int) (gp.tileSize * 3.5);
+
+        drawSubWindow(dialogueX, dialogueY, dialogueWidth, dialogueHeight, g2);
+
+        g2.setFont(fireRed.deriveFont(28F));
+        dialogueX += gp.tileSize;
+        dialogueY += gp.tileSize;
+
+        String options = "Health\nMana\nAttack\nPotion\nMpPotion";
+        for (String line : options.split("\n")) {
+            g2.drawString(line, dialogueX, dialogueY);
+            dialogueY += 20;
+        }
     }
 
     public int getXCenteredText(String text) {
