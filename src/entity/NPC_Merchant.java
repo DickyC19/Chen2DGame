@@ -11,6 +11,7 @@ import java.util.Objects;
 public class NPC_Merchant extends Entity{
     BufferedImage image;
     boolean isDrawn;
+    public String[] items;
 
     public NPC_Merchant(GamePanel gp) {
         super(gp);
@@ -21,6 +22,7 @@ public class NPC_Merchant extends Entity{
         solidAreaDefaultX = 0;
         solidAreaDefaultY = 0;
 
+        items = new String[6];
         setDialogue();
     }
 
@@ -40,7 +42,15 @@ public class NPC_Merchant extends Entity{
 
     public void setDialogue() {
         dialogues[0] = "Hello traveler, You can level up and buy items\nhere";
+
+        items[0] = "Grants max life\nCost: 200 souls";
+        items[1] = "Grants max mana\n Cost: 200 souls";
+        items[2] = "Grants attack\nCost: 400 souls";
+        items[3] = "Restores hp\nCost: 100 souls";
+        items[4] = "Restores mp\nCost: 100 souls";
     }
+
+
 
     public void speak() {
         super.speak();

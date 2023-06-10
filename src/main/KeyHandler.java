@@ -142,7 +142,52 @@ public class KeyHandler implements KeyListener {
                 }
             }
         } else if (gp.gameState == gp.tradeState) {
-
+            if (code == KeyEvent.VK_W) {
+                if (gp.ui.commandNum == -1) {
+                    gp.ui.commandNum ++;
+                } else {
+                    gp.ui.commandNum--;
+                }
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 4;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 4) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+            if (code == KeyEvent.VK_SPACE) {
+                if (gp.ui.commandNum == 0) {
+                    if (gp.player.souls >= 200) {
+                        gp.player.updateValues(100, 0, 0, 0, 0);
+                        gp.player.souls -= 200;
+                    }
+                } else if (gp.ui.commandNum == 1) {
+                    if (gp.player.souls >= 200) {
+                        gp.player.updateValues(0, 1, 0, 0, 0);
+                        gp.player.souls -= 200;
+                    }
+                } else if (gp.ui.commandNum == 2) {
+                    if (gp.player.souls >= 400) {
+                        gp.player.updateValues(0, 0, 1, 0, 0);
+                        gp.player.souls -= 400;
+                    }
+                } else if (gp.ui.commandNum == 3) {
+                    if (gp.player.souls >= 100) {
+                        gp.player.updateValues(0, 0, 0, 1, 0);
+                        gp.player.souls -= 100;
+                    }
+                } else if (gp.ui.commandNum == 4) {
+                    if (gp.player.souls >= 100) {
+                        gp.player.updateValues(0, 0, 0, 0, 1);
+                        gp.player.souls -= 100;
+                    }
+                }
+                gp.ui.commandNum = 0;
+                gp.gameState = gp.playState;
+            }
         }
 
     }

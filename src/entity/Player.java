@@ -11,8 +11,9 @@ import java.io.IOException;
 public class Player extends Entity{
     KeyHandler keyH;
     String previousDirection;
-    int potions;
-    int mpPotions;
+    public int potions;
+    public int mpPotions;
+    public int souls;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -96,6 +97,7 @@ public class Player extends Entity{
             }
 
             if (gp.merchant.isDrawn) {
+                gp.ui.commandNum = -1;
                 interactNPC(gp.collisionChecker.checkEntity(this, gp.merchant));
             }
 

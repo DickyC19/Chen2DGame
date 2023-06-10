@@ -99,7 +99,9 @@ public class UI {
             drawGameOver();
         }
         if (gp.gameState == gp.tradeState) {
-            drawDialogueScreen();
+            if (commandNum == -1) {
+                drawDialogueScreen();
+            }
             drawTradeMenu();
         }
     }
@@ -374,6 +376,7 @@ public class UI {
             } else {
                 if (enemyY >= 32) {
                     enemyHp = 0;
+                    gp.player.souls += enemy.souls;
                     gp.monsterDead = true;
                     gp.gameState = gp.playState;
                 } else {
@@ -514,10 +517,48 @@ public class UI {
     }
 
     private void drawTradeMenu() {
+        if (commandNum != -1) {
+            drawItemDescription(gp.merchant.items[commandNum]);
+        }
         int dialogueX = gp.tileSize * 13;
         int dialogueY = gp.tileSize * 4;
-        int dialogueWidth = gp.tileSize * 3;
+        int dialogueWidth = (int) (gp.tileSize * 3.5);
         int dialogueHeight = (int) (gp.tileSize * 3.5);
+
+        drawSubWindow(dialogueX, dialogueY, dialogueWidth, dialogueHeight, g2);
+
+        g2.setFont(fireRed.deriveFont(28F));
+        dialogueX += gp.tileSize / 2 + 24;
+        dialogueY += gp.tileSize / 2 + 24;
+
+        String options = "Health\nMana\nAttack\nPotion\nMpPotion";
+        for (String line : options.split("\n")) {
+            g2.drawString(line, dialogueX, dialogueY);
+            dialogueY += 35;
+        }
+
+        dialogueX -= gp.tileSize;
+        if (commandNum == 0) {
+            dialogueY -= 175;
+        } else if (commandNum == 1){
+            dialogueY -= 140;
+        } else if (commandNum == 2) {
+            dialogueY -= 105;
+        } else if (commandNum == 3) {
+            dialogueY -= 70;
+        } else if (commandNum == 4) {
+            dialogueY -= 35;
+        }
+        if (commandNum != -1) {
+            g2.drawString(">", dialogueX - gp.tileSize, dialogueY);
+        }
+    }
+
+    public void drawItemDescription(String text) {
+        int dialogueX = gp.tileSize * 2;
+        int dialogueY = gp.tileSize / 2;
+        int dialogueWidth = gp.screenWidth - (gp.tileSize * 4);
+        int dialogueHeight = gp.tileSize * 5;
 
         drawSubWindow(dialogueX, dialogueY, dialogueWidth, dialogueHeight, g2);
 
@@ -525,10 +566,9 @@ public class UI {
         dialogueX += gp.tileSize;
         dialogueY += gp.tileSize;
 
-        String options = "Health\nMana\nAttack\nPotion\nMpPotion";
-        for (String line : options.split("\n")) {
+        for (String line : text.split("\n")) {
             g2.drawString(line, dialogueX, dialogueY);
-            dialogueY += 20;
+            dialogueY += 40;
         }
     }
 
