@@ -110,7 +110,9 @@ public class KeyHandler implements KeyListener {
                     gp.ui.battleNum--;
                 }
                 if (code == KeyEvent.VK_SPACE) {
-                    gp.ui.battleNum++;
+                    if (gp.player.moves[gp.ui.choiceNum].cost <= gp.player.mana) {
+                        gp.ui.battleNum++;
+                    }
                 }
             } else if (gp.ui.battleNum == 2) {
                 if (code == KeyEvent.VK_SPACE) {
@@ -162,29 +164,43 @@ public class KeyHandler implements KeyListener {
                 if (gp.ui.commandNum == 0) {
                     if (gp.player.souls >= 200) {
                         gp.player.updateValues(100, 0, 0, 0, 0);
+                        gp.player.life += 100;
                         gp.player.souls -= 200;
+                        gp.ui.commandNum = 0;
+                        gp.gameState = gp.playState;
                     }
                 } else if (gp.ui.commandNum == 1) {
                     if (gp.player.souls >= 200) {
-                        gp.player.updateValues(0, 1, 0, 0, 0);
+                        gp.player.updateValues(0, 5, 0, 0, 0);
+                        gp.player.mana += 5;
                         gp.player.souls -= 200;
+                        gp.ui.commandNum = 0;
+                        gp.gameState = gp.playState;
                     }
                 } else if (gp.ui.commandNum == 2) {
                     if (gp.player.souls >= 400) {
                         gp.player.updateValues(0, 0, 1, 0, 0);
                         gp.player.souls -= 400;
+                        gp.ui.commandNum = 0;
+                        gp.gameState = gp.playState;
                     }
                 } else if (gp.ui.commandNum == 3) {
                     if (gp.player.souls >= 100) {
                         gp.player.updateValues(0, 0, 0, 1, 0);
                         gp.player.souls -= 100;
+                        gp.ui.commandNum = 0;
+                        gp.gameState = gp.playState;
                     }
                 } else if (gp.ui.commandNum == 4) {
                     if (gp.player.souls >= 100) {
                         gp.player.updateValues(0, 0, 0, 0, 1);
                         gp.player.souls -= 100;
+                        gp.ui.commandNum = 0;
+                        gp.gameState = gp.playState;
                     }
                 }
+            }
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.ui.commandNum = 0;
                 gp.gameState = gp.playState;
             }

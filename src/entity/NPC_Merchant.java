@@ -44,7 +44,7 @@ public class NPC_Merchant extends Entity{
         dialogues[0] = "Hello traveler, You can level up and buy items\nhere";
 
         items[0] = "Grants max life\nCost: 200 souls";
-        items[1] = "Grants max mana\n Cost: 200 souls";
+        items[1] = "Grants max mana\nCost: 200 souls";
         items[2] = "Grants attack\nCost: 400 souls";
         items[3] = "Restores hp\nCost: 100 souls";
         items[4] = "Restores mp\nCost: 100 souls";

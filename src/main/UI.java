@@ -36,8 +36,10 @@ public class UI {
     boolean hadPlayerTurn;
     boolean hadEnemyTurn;
     boolean hasWon;
+    boolean gainedSouls;
     int damage;
     int enemyY;
+    int count;
 
     String fightText;
 
@@ -84,12 +86,14 @@ public class UI {
         if (gp.gameState == gp.playState) {
             drawHealth();
         }
-        if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState) {
+        if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState && !hasWon && !gainedSouls) {
             drawBattleScene();
-        } else if (inFight2 || inFight1 && !hasWon) {
+        } else if (inFight2 || inFight1) {
             playAnimation(enemyAttacker);
         } else if (hasWon) {
             playWinAnimation();
+        } else if (gainedSouls) {
+            playSoulGainAnimation();
         }
         if (gp.gameState == gp.dialogueState) {
             drawHealth();
@@ -233,7 +237,7 @@ public class UI {
         enemyDrawn = true;
     }
 
-    private void drawEnemyFalling(int y ) {
+    private void drawEnemyFalling(int y) {
         if (enemy.name.equals("RedWolfOfRadagon")) {
             g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 6 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
         } else {
@@ -273,7 +277,7 @@ public class UI {
         g2.fillRect(screenX + gp.tileSize + 5, screenY + 14, gp.player.life - 10, gp.tileSize - 28);
     }
 
-    public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
+    private void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
 
         Color c = new Color(0, 0, 0, 210);
         g2.setColor(c);
@@ -285,7 +289,7 @@ public class UI {
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
 
-    public void drawChoiceMenu() {
+    private void drawChoiceMenu() {
         int x = 0;
         g2.drawImage(textBox, 0, gp.screenHeight - fightSelect.getHeight() * gp.scale, textBox.getWidth() * gp.scale, textBox.getHeight() * gp.scale, null);
         g2.drawImage(fightSelect, gp.screenWidth - fightSelect.getWidth() * gp.scale, gp.screenHeight - fightSelect.getHeight() * gp.scale, fightSelect.getWidth() * gp.scale, fightSelect.getHeight() * gp.scale, null);
@@ -297,7 +301,7 @@ public class UI {
         g2.drawImage(arrow, x, gp.screenHeight - (fightSelect.getHeight() * gp.scale) + 75, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
     }
 
-    public void drawBattleMenu() {
+    private void drawBattleMenu() {
         int x = 0;
         int y = 0;
         g2.setFont(fireRed.deriveFont(40F));
@@ -345,7 +349,7 @@ public class UI {
         }
     }
 
-    public void drawFight() {
+    private void drawFight() {
         Move move;
         currentHp = gp.player.life;
         enemyHp = enemy.life;
@@ -359,7 +363,7 @@ public class UI {
             damageCalc(gp.player, move);
             hadPlayerTurn = false;
             enemyHp = enemy.life - damage;
-
+            gp.player.mana -= move.cost;
             playAnimation(false);
         }
 
@@ -374,15 +378,7 @@ public class UI {
                 enemy = gp.monsters[gp.tileM.getCount()];
                 setImages();
             } else {
-                if (enemyY >= 32) {
-                    enemyHp = 0;
-                    gp.player.souls += enemy.souls;
-                    gp.monsterDead = true;
-                    gp.gameState = gp.playState;
-                } else {
-                    playWinAnimation();
-                }
-
+                playWinAnimation();
             }
         }
 
@@ -403,6 +399,7 @@ public class UI {
             currentHp = 0;
             battleNum = 0;
             choiceNum = 0;
+            commandNum = 0;
             gp.gameState = gp.deathState;
         }
 
@@ -416,7 +413,7 @@ public class UI {
         }
     }
 
-    public void playAnimation(boolean boss) {
+    private void playAnimation(boolean boss) {
         drawBackground();
         drawCharacter();
         drawEnemy();
@@ -455,21 +452,44 @@ public class UI {
                 hadPlayerTurn = true;
             }
         }
-
-
-        // "congrats" you win, PLayer receives xxxx souls
-        // make it so that it plays until the enemy fully drops out of the screen
-        // MAKE opacity a variable of y level
     }
 
     private void playWinAnimation() {
+        hasWon = true;
+        drawBackground();
+        drawCharacter();
+        drawEnemyFalling(enemyY);
+        drawFightHealth();
+        drawTextBox();
+        drawFightText(enemy.name + "  has\nperished");
+
+        if (enemyY < 150) {
+            enemyY += 4;
+        } else {
+            enemyY = 0;
+            hasWon = false;
+            playSoulGainAnimation();
+        }
+    }
+
+    private void playSoulGainAnimation() {
+        gainedSouls = true;
         drawBackground();
         drawCharacter();
         drawFightHealth();
         drawTextBox();
-        drawEnemy();
+        drawFightText("PLAYER  gained\n" + enemy.souls + "  Souls");
 
-
+        if (count < 150) {
+            count++;
+        } else {
+            count = 0;
+            gainedSouls = false;
+            enemyHp = 0;
+            gp.player.souls += enemy.souls;
+            gp.monsterDead = true;
+            gp.gameState = gp.playState;
+        }
     }
 
 
@@ -526,7 +546,7 @@ public class UI {
         int dialogueHeight = (int) (gp.tileSize * 3.5);
 
         drawSubWindow(dialogueX, dialogueY, dialogueWidth, dialogueHeight, g2);
-
+        drawSoulCount();
         g2.setFont(fireRed.deriveFont(28F));
         dialogueX += gp.tileSize / 2 + 24;
         dialogueY += gp.tileSize / 2 + 24;
@@ -549,12 +569,13 @@ public class UI {
         } else if (commandNum == 4) {
             dialogueY -= 35;
         }
+        dialogueX += gp.tileSize * 2 - 24;
         if (commandNum != -1) {
             g2.drawString(">", dialogueX - gp.tileSize, dialogueY);
         }
     }
 
-    public void drawItemDescription(String text) {
+    private void drawItemDescription(String text) {
         int dialogueX = gp.tileSize * 2;
         int dialogueY = gp.tileSize / 2;
         int dialogueWidth = gp.screenWidth - (gp.tileSize * 4);
@@ -570,6 +591,21 @@ public class UI {
             g2.drawString(line, dialogueX, dialogueY);
             dialogueY += 40;
         }
+    }
+
+    private void drawSoulCount() {
+        int dialogueX = gp.tileSize * 2;
+        int dialogueY = (int) (gp.tileSize * 5.4);
+        int dialogueWidth = gp.tileSize * 4;
+        int dialogueHeight = gp.tileSize;
+
+        drawSubWindow(dialogueX, dialogueY, dialogueWidth, dialogueHeight, g2);
+
+        g2.setFont(fireRed.deriveFont(28F));
+        dialogueX += 20;
+        dialogueY += 45;
+
+        g2.drawString("Souls: " + gp.player.souls, dialogueX, dialogueY);
     }
 
     public int getXCenteredText(String text) {

@@ -36,7 +36,7 @@ public class Player extends Entity{
 
         maxLife = 300;
         life = maxLife;
-        maxMana = 50;
+        maxMana = 15;
         mana = maxMana;
         potions = 1;
         mpPotions = 0;
