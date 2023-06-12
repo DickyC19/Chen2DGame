@@ -69,6 +69,17 @@ public class TileManager {
             setUp(53, "053", true);
             setUp(54, "054", true);
             setUp(55, "055", false);
+            setUp(56, "056", true);
+            setUp(57, "057", false);
+            setUp(58, "058", false);
+            setUp(59, "059", false);
+            setUp(60, "060", false);
+            setUp(61, "061", false);
+            setUp(62, "062", false);
+            setUp(63, "063", false);
+            setUp(64, "064", false);
+            setUp(65, "065", false);
+            setUp(66, "066", false);
     }
 
     public void setUp(int index, String imagePath, boolean collision) {
