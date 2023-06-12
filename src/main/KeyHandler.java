@@ -65,8 +65,14 @@ public class KeyHandler implements KeyListener {
                     }
                 }
                 if (code == KeyEvent.VK_SPACE) {
-                    gp.ui.choiceNum = 0;
-                    gp.ui.battleNum++;
+                    if (gp.ui.choiceNum == 1) {
+                        gp.ui.choiceNum = 0;
+                        gp.ui.battleNum = 3;
+                    } else {
+                        gp.ui.choiceNum = 0;
+                        gp.ui.battleNum++;
+                    }
+
                 }
             } else if (gp.ui.battleNum == 1) {
                 if (code == KeyEvent.VK_W) {
@@ -114,9 +120,33 @@ public class KeyHandler implements KeyListener {
                         gp.ui.battleNum++;
                     }
                 }
-            } else if (gp.ui.battleNum == 2) {
+            } else if (gp.ui.battleNum == 3) {
+                if (code == KeyEvent.VK_A) {
+                    if (gp.ui.choiceNum == 0) {
+                        gp.ui.choiceNum = 1;
+                    } else {
+                        gp.ui.choiceNum--;
+                    }
+                }
+                if (code == KeyEvent.VK_D) {
+                    if (gp.ui.choiceNum == 1) {
+                        gp.ui.choiceNum = 0;
+                    } else {
+                        gp.ui.choiceNum++;
+                    }
+                }
                 if (code == KeyEvent.VK_SPACE) {
-
+                    System.out.println(gp.ui.choiceNum);
+                    if (gp.ui.choiceNum == 0 && gp.player.potions >= 1 && gp.player.life != gp.player.maxLife) {
+                        gp.ui.battleNum ++;
+                    } else if (gp.ui.choiceNum == 1 && gp.player.mpPotions >= 1 && gp.player.mana != gp.player.maxMana) {
+                        System.out.println("asdfas");
+                        gp.ui.battleNum ++;
+                    }
+                }
+                if (code == KeyEvent.VK_ESCAPE) {
+                    gp.ui.choiceNum = 0;
+                    gp.ui.battleNum = 0;
                 }
             }
         } else if (gp.gameState == gp.dialogueState) {

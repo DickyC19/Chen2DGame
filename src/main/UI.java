@@ -37,6 +37,7 @@ public class UI {
     boolean hadEnemyTurn;
     boolean hasWon;
     boolean gainedSouls;
+    boolean hasHealed;
     int damage;
     int enemyY;
     int count;
@@ -86,8 +87,10 @@ public class UI {
         if (gp.gameState == gp.playState) {
             drawHealth();
         }
-        if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState && !hasWon && !gainedSouls) {
+        if (!inFight1 && !inFight2 && gp.gameState == gp.pauseState && !hasWon && !gainedSouls && !hasHealed) {
             drawBattleScene();
+        } else if (hasHealed) {
+            playHealAnimation();
         } else if (inFight2 || inFight1) {
             playAnimation(enemyAttacker);
         } else if (hasWon) {
@@ -190,6 +193,11 @@ public class UI {
             } else if (battleNum == 2) {
                 drawTextBox();
                 drawFight();
+            } else if (battleNum == 3) {
+                drawPotionMenu();
+            } else if (battleNum == 4) {
+                drawTextBox();
+                drawPotionFight();
             }
         }
     }
@@ -335,6 +343,30 @@ public class UI {
 
     }
 
+    private void drawPotionMenu() {
+        int x = 0;
+        int y = 0;
+        g2.setFont(fireRed.deriveFont(40F));
+        g2.setColor(Color.black);
+        g2.drawImage(moveList, 0, gp.screenHeight - moveList.getHeight() * gp.scale, gp.screenWidth, moveList.getHeight() * gp.scale, null);
+        g2.drawString("Potion   x" + gp.player.potions, gp.tileSize / 2 + gp.tileSize - 30, gp.screenHeight - gp.tileSize - 15);
+        g2.drawString("mpPotion  x" + gp.player.mpPotions, gp.tileSize * 6 + 32, gp.screenHeight - gp.tileSize - 15);
+        g2.setFont(fireRed.deriveFont(37F));
+        g2.setColor(Color.black);
+        if (choiceNum == 0) {
+            x = gp.tileSize - 30;
+            y = gp.screenHeight - gp.tileSize - 55;
+            g2.drawString("100", gp.screenWidth - (gp.tileSize * 5) / 2, gp.screenHeight - gp.tileSize - 38);
+
+        } else if (choiceNum == 1){
+            x = gp.tileSize * 6;
+            y = gp.screenHeight - gp.tileSize - 55;
+            g2.drawString("10", gp.screenWidth - (gp.tileSize * 5) / 2, gp.screenHeight - gp.tileSize - 38);
+        }
+        g2.drawString("Item",gp.screenWidth - (gp.tileSize * 6) / 2,gp.screenHeight - gp.tileSize + 24);
+        g2.drawImage(arrow, x, y, arrow.getWidth() * gp.scale, arrow.getHeight() * gp.scale, null);
+    }
+
     private void drawFightText(String dialogue) {
         int y;
         g2.setFont(fireRed.deriveFont(40F));
@@ -380,6 +412,57 @@ public class UI {
             } else {
                 playWinAnimation();
             }
+        }
+
+        if (!inFight1 && !hadEnemyTurn && enemyHp != 0) {
+            // enemy's move
+            move = enemy.determineMove();
+
+            fightText = enemy.name + "  used\n" + move.name;
+            drawFightText(fightText);
+
+            damageCalc(enemy, move);
+            hadEnemyTurn = false;
+            currentHp = gp.player.life - damage;
+
+            playAnimation(true);
+        }
+        if (gp.player.life == 0) {
+            currentHp = 0;
+            battleNum = 0;
+            choiceNum = 0;
+            commandNum = 0;
+            gp.gameState = gp.deathState;
+        }
+
+        if (hadEnemyTurn && hadPlayerTurn) {
+            hadPlayerTurn = false;
+            hadEnemyTurn = false;
+            inFight2 = false;
+            inFight1 = false;
+            battleNum = 0;
+            choiceNum = 0;
+        }
+    }
+
+    private void drawPotionFight() {
+        Move move;
+        currentHp = gp.player.life;
+        enemyHp = enemy.life;
+
+        if (!inFight2 && !hadPlayerTurn) {
+            fightText = "PLAYER  used\na  potion";
+            drawFightText(fightText);
+
+            hadPlayerTurn = false;
+            if (choiceNum == 0) {
+                currentHp = gp.player.life + 100 * gp.player.attack;
+                gp.player.potions --;
+            } else if (choiceNum == 1) {
+                currentHp = gp.player.mana + 10;
+                gp.player.mpPotions --;
+            }
+            playHealAnimation();
         }
 
         if (!inFight1 && !hadEnemyTurn && enemyHp != 0) {
@@ -492,6 +575,45 @@ public class UI {
         }
     }
 
+    private void playHealAnimation() {
+        hasHealed = true;
+        drawBackground();
+        drawCharacter();
+        drawEnemy();
+        drawFightHealth();
+        drawTextBox();
+        drawFightText(fightText);
+
+        inFight1 = true;
+        if (choiceNum == 0) {
+            if (currentHp > gp.player.maxLife) {
+                currentHp = gp.player.maxLife;
+            }
+            if (gp.player.life < currentHp) {
+                gp.player.life += 1;
+            } else {
+                inFight1 = false;
+                hadPlayerTurn = true;
+                hasHealed = false;
+            }
+        } else if (choiceNum == 1) {
+            if (currentHp > gp.player.maxMana) {
+                currentHp = gp.player.maxMana;
+            }
+            if (gp.player.mana < currentHp) {
+                gp.player.mana += 1;
+            } else {
+                inFight1 = false;
+                hadPlayerTurn = true;
+                hasHealed = false;
+            }
+        }
+    }
+// al;kdfjasl;dfjlkasjfkl;jaslkfjsdakl;jfaldksjl;daskfjkl;fadjl;kasdfjlk;asdfjl;kasdfj
+    // ;lsfadjkl;sajfkl;adsjklf;j;lajkl;fajsl;kjfl;ksadjflas/
+    // fldsajfl;asjl;fdjsal;kfjalk;jfalsdk;jlska
+    // win screeen eeeeeeneeeeen
+    /// theeene back grorusdan
 
     private void damageCalc(Entity entity, Move move) {
         if (Math.random() <= move.critRate / 100.0) {
