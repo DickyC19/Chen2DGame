@@ -21,7 +21,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
         maps = new String[]{"maps/map00.txt", "maps/map01.txt", "maps/map02.txt", "maps/map03.txt", "maps/map04.txt", "maps/map05.txt", "maps/map06.txt", "maps/map07.txt", "maps/map08.txt", "maps/map09.txt"};
-        tile = new Tile[50];
+        tile = new Tile[100];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenCol];
         count = 0;
         getTileImage();
@@ -56,6 +56,19 @@ public class TileManager {
             setUp(40, "040", true);
             setUp(41, "041", true);
             setUp(42, "042", true);
+            setUp(43, "043", true);
+            setUp(44, "044", true);
+            setUp(45, "045", true);
+            setUp(46, "046", true);
+            setUp(47, "047", true);
+            setUp(48, "048", true);
+            setUp(49, "049", true);
+            setUp(50, "050", true);
+            setUp(51, "051", true);
+            setUp(52, "052", true);
+            setUp(53, "053", true);
+            setUp(54, "054", true);
+            setUp(55, "055", false);
     }
 
     public void setUp(int index, String imagePath, boolean collision) {
@@ -72,8 +85,6 @@ public class TileManager {
     }
     public void loadMap() {
         try {
-            System.out.println(maps[count]);
-
             gp.monsterDead = false;
             InputStream is = getClass().getClassLoader().getResourceAsStream(maps[count]);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));

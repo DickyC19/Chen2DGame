@@ -140,7 +140,6 @@ public class KeyHandler implements KeyListener {
                     if (gp.ui.choiceNum == 0 && gp.player.potions >= 1 && gp.player.life != gp.player.maxLife) {
                         gp.ui.battleNum ++;
                     } else if (gp.ui.choiceNum == 1 && gp.player.mpPotions >= 1 && gp.player.mana != gp.player.maxMana) {
-                        System.out.println("asdfas");
                         gp.ui.battleNum ++;
                     }
                 }
@@ -151,7 +150,7 @@ public class KeyHandler implements KeyListener {
             }
         } else if (gp.gameState == gp.dialogueState) {
             if (code == KeyEvent.VK_SPACE) {
-                gp.gameState = gp.playState;
+                gp.oldMan.speak();
             }
         } else if (gp.gameState == gp.deathState || gp.gameState == gp.winState) {
             if (code == KeyEvent.VK_W) {
@@ -175,63 +174,63 @@ public class KeyHandler implements KeyListener {
             }
         } else if (gp.gameState == gp.tradeState) {
             if (code == KeyEvent.VK_W) {
-                if (gp.ui.commandNum == -1) {
-                    gp.ui.commandNum ++;
+                if (gp.ui.dialogueNum == -1) {
+                    gp.ui.dialogueNum ++;
                 } else {
-                    gp.ui.commandNum--;
+                    gp.ui.dialogueNum--;
                 }
-                if (gp.ui.commandNum < 0) {
-                    gp.ui.commandNum = 4;
+                if (gp.ui.dialogueNum < 0) {
+                    gp.ui.dialogueNum = 4;
                 }
             }
             if (code == KeyEvent.VK_S) {
-                gp.ui.commandNum++;
-                if (gp.ui.commandNum > 4) {
-                    gp.ui.commandNum = 0;
+                gp.ui.dialogueNum++;
+                if (gp.ui.dialogueNum > 4) {
+                    gp.ui.dialogueNum = 0;
                 }
             }
             if (code == KeyEvent.VK_SPACE) {
-                if (gp.ui.commandNum == 0) {
+                if (gp.ui.dialogueNum == 0) {
                     if (gp.player.souls >= 200) {
                         gp.player.updateValues(100, 0, 0, 0, 0);
                         gp.player.life += 100;
                         gp.player.souls -= 200;
-                        gp.ui.commandNum = 0;
+                        gp.ui.dialogueNum = 0;
                         gp.gameState = gp.playState;
                     }
-                } else if (gp.ui.commandNum == 1) {
+                } else if (gp.ui.dialogueNum == 1) {
                     if (gp.player.souls >= 200) {
                         gp.player.updateValues(0, 5, 0, 0, 0);
                         gp.player.mana += 5;
                         gp.player.souls -= 200;
-                        gp.ui.commandNum = 0;
+                        gp.ui.dialogueNum = 0;
                         gp.gameState = gp.playState;
                     }
-                } else if (gp.ui.commandNum == 2) {
+                } else if (gp.ui.dialogueNum == 2) {
                     if (gp.player.souls >= 400) {
                         gp.player.updateValues(0, 0, 1, 0, 0);
                         gp.player.souls -= 400;
-                        gp.ui.commandNum = 0;
+                        gp.ui.dialogueNum = 0;
                         gp.gameState = gp.playState;
                     }
-                } else if (gp.ui.commandNum == 3) {
+                } else if (gp.ui.dialogueNum == 3) {
                     if (gp.player.souls >= 100) {
                         gp.player.updateValues(0, 0, 0, 1, 0);
                         gp.player.souls -= 100;
-                        gp.ui.commandNum = 0;
+                        gp.ui.dialogueNum = 0;
                         gp.gameState = gp.playState;
                     }
-                } else if (gp.ui.commandNum == 4) {
+                } else if (gp.ui.dialogueNum == 4) {
                     if (gp.player.souls >= 100) {
                         gp.player.updateValues(0, 0, 0, 0, 1);
                         gp.player.souls -= 100;
-                        gp.ui.commandNum = 0;
+                        gp.ui.dialogueNum = 0;
                         gp.gameState = gp.playState;
                     }
                 }
             }
             if (code == KeyEvent.VK_ESCAPE) {
-                gp.ui.commandNum = 0;
+                gp.ui.dialogueNum = 0;
                 gp.gameState = gp.playState;
             }
         }

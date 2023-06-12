@@ -18,8 +18,8 @@ public class ENEMY_Radagon extends Enemy{
         setMoves();
 
         solidArea = new Rectangle(0, 0, image.getWidth() * 2, image.getHeight() * 2);
-        x = gp.screenWidth / 5;
-        y = - gp.tileSize;
+        x = gp.screenWidth / 3;
+        y = gp.tileSize;
         solidAreaDefaultX = 0;
         solidAreaDefaultY = 0;
     }

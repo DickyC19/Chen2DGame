@@ -18,7 +18,7 @@ public class ENEMY_BeastClergyMan extends Enemy{
         setMoves();
 
         solidArea = new Rectangle(0, 0, image.getWidth() * 2, image.getHeight() * 2);
-        x = gp.screenWidth / 5;
+        x = gp.screenWidth / 3;
         y = - gp.tileSize;
         solidAreaDefaultX = 0;
         solidAreaDefaultY = 0;

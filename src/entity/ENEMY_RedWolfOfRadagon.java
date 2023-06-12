@@ -17,7 +17,7 @@ public class ENEMY_RedWolfOfRadagon extends Enemy{
         setImage("RedWolfOfRadagon");
         setMoves();
 
-        solidArea = new Rectangle(0, 0, image.getWidth(), image.getHeight());
+        solidArea = new Rectangle(0, 0, (int) (image.getWidth() * 1.5) , (int) (image.getHeight() * 1.5));
         x = gp.screenWidth / 3;
         y = - gp.tileSize;
         solidAreaDefaultX = 0;

@@ -50,10 +50,9 @@ public class NPC_Merchant extends Entity{
         items[4] = "Restores mp\nCost: 100 souls";
     }
 
-
-
     public void speak() {
-        super.speak();
+        gp.ui.currentDialogue = dialogues[dialogueIndex];
+        gp.ui.dialogueNum = -1;
         gp.gameState = gp.tradeState;
     }
 

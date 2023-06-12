@@ -17,7 +17,7 @@ public class ENEMY_TreeSentinel extends Enemy{
         setImage("TreeSentinel");
         setMoves();
 
-        solidArea = new Rectangle(0, 0, 216, 216);
+        solidArea = new Rectangle(0, 0, (int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5));
         x = gp.screenWidth / 3;
         y =  gp.tileSize;
         solidAreaDefaultX = 0;

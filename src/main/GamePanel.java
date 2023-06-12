@@ -109,8 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (gameState == playState || gameState == dialogueState || gameState == tradeState) {
             if (player.x == screenWidth) {
-                System.out.println(tileM.getCount());
-                if (tileM.getCount() == 1 || tileM.getCount() == 4 || tileM.getCount() == 7) {
+                if (tileM.getCount() == 1 || tileM.getCount() == 4 || tileM.getCount() == 7 || tileM.getCount() == 9) {
                     player.x = tileSize;
                 } else {
                     player.x = 0;
@@ -150,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable{
                 oldMan.setDrawn(false);
             }
 
-            if (tileM.getCount() == 4 || tileM.getCount() == 7 || tileM.getCount() == 8) {
+            if (tileM.getCount() == 4 || tileM.getCount() == 7 || tileM.getCount() == 9) {
                 merchant.drawNPC(g2);
             } else {
                 merchant.setDrawn(false);

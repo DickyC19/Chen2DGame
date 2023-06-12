@@ -102,6 +102,9 @@ public class Player extends Entity{
             }
 
             if (!gp.monsterDead) {
+                gp.ui.battleNum = 0;
+                gp.ui.choiceNum = 0;
+                gp.ui.commandNum = 0;
                 interactEnemy(gp.collisionChecker.checkEntity(this, gp.monsters[0]));
             }
 
@@ -172,7 +175,6 @@ public class Player extends Entity{
         if (collided) {
             if (gp.merchant.isDrawn) {
                 if (gp.keyH.spacePressed) {
-                    gp.gameState = gp.dialogueState;
                     gp.merchant.speak();
                 }
             } else {

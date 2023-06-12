@@ -50,6 +50,7 @@ public class UI {
     public int commandNum = 0;
     public int battleNum = 0;
     public int choiceNum = 0;
+    public int dialogueNum = -1;
     public Font fireRed;
     public String currentDialogue = "";
 
@@ -109,7 +110,7 @@ public class UI {
             drawWinScreen();
         }
         if (gp.gameState == gp.tradeState) {
-            if (commandNum == -1) {
+            if (dialogueNum == -1) {
                 drawDialogueScreen();
             }
             drawTradeMenu();
@@ -271,6 +272,16 @@ public class UI {
     private void drawEnemy() {
         if (enemy.name.equals("RedWolfOfRadagon")) {
             g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 6 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("TreeSentinel")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 45, -gp.tileSize * 2 + 50, (int) (enemyImage.getWidth() * 2.5), (int) (enemyImage.getHeight() * 2.5), null);
+        } else if (enemy.name.equals("GodrickTheGrafted")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 3, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("Rennala")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 - 30, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("BeastClergyMan")) {
+            g2.drawImage(enemyImage, gp.tileSize * 7 + 20, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("Radagon")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
         } else {
             g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
         }
@@ -280,6 +291,16 @@ public class UI {
     private void drawEnemyFalling(int y) {
         if (enemy.name.equals("RedWolfOfRadagon")) {
             g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 6 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("TreeSentinel")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 45, -gp.tileSize * 2 + 50 + y, (int) (enemyImage.getWidth() * 2.5), (int) (enemyImage.getHeight() * 2.5), null);
+        } else if (enemy.name.equals("GodrickTheGrafted")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 3 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("Rennala")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 - 30 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("BeastClergyMan")) {
+            g2.drawImage(enemyImage, gp.tileSize * 7 + 20, -gp.tileSize * 2 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
+        } else if (enemy.name.equals("Radagon")) {
+            g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
         } else {
             g2.drawImage(enemyImage, gp.tileSize * 6 + 60, -gp.tileSize * 2 + 12 + y, enemyImage.getWidth() * 3, enemyImage.getHeight() * 3, null);
         }
@@ -547,8 +568,6 @@ public class UI {
             inFight2 = true;
             enemyAttacker = true;
             if (gp.player.life > currentHp) {
-                System.out.println(gp.player.life);
-                System.out.println(currentHp);
                 gp.player.life -= 1;
             } else {
                 inFight2 = false;
@@ -559,8 +578,6 @@ public class UI {
             inFight1 = true;
             enemyAttacker = false;
             if (enemy.life > enemyHp) {
-                System.out.println(enemy.life);
-                System.out.println(enemyHp);
                 enemy.life -= 1;
             } else {
                 inFight1 = false;
@@ -603,7 +620,11 @@ public class UI {
             enemyHp = 0;
             gp.player.souls += enemy.souls;
             gp.monsterDead = true;
-            gp.gameState = gp.playState;
+            if (enemy.name.equals("EldenBeast")) {
+                gp.gameState = gp.winState;
+            } else {
+                gp.gameState = gp.playState;
+            }
         }
     }
 
@@ -641,11 +662,6 @@ public class UI {
             }
         }
     }
-// al;kdfjasl;dfjlkasjfkl;jaslkfjsdakl;jfaldksjl;daskfjkl;fadjl;kasdfjlk;asdfjl;kasdfj
-    // ;lsfadjkl;sajfkl;adsjklf;j;lajkl;fajsl;kjfl;ksadjflas/
-    // fldsajfl;asjl;fdjsal;kfjalk;jfalsdk;jlska
-    // win screeen eeeeeeneeeeen
-    /// theeene back grorusdan
 
     private void damageCalc(Entity entity, Move move) {
         if (Math.random() <= move.critRate / 100.0) {
@@ -691,8 +707,8 @@ public class UI {
     }
 
     private void drawTradeMenu() {
-        if (commandNum != -1) {
-            drawItemDescription(gp.merchant.items[commandNum]);
+        if (dialogueNum != -1) {
+            drawItemDescription(gp.merchant.items[dialogueNum]);
         }
         int dialogueX = gp.tileSize * 13;
         int dialogueY = gp.tileSize * 4;
@@ -712,19 +728,19 @@ public class UI {
         }
 
         dialogueX -= gp.tileSize;
-        if (commandNum == 0) {
+        if (dialogueNum == 0) {
             dialogueY -= 175;
-        } else if (commandNum == 1){
+        } else if (dialogueNum == 1){
             dialogueY -= 140;
-        } else if (commandNum == 2) {
+        } else if (dialogueNum == 2) {
             dialogueY -= 105;
-        } else if (commandNum == 3) {
+        } else if (dialogueNum == 3) {
             dialogueY -= 70;
-        } else if (commandNum == 4) {
+        } else if (dialogueNum == 4) {
             dialogueY -= 35;
         }
         dialogueX += gp.tileSize * 2 - 24;
-        if (commandNum != -1) {
+        if (dialogueNum != -1) {
             g2.drawString(">", dialogueX - gp.tileSize, dialogueY);
         }
     }

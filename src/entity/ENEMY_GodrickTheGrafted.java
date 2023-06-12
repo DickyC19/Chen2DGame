@@ -18,8 +18,8 @@ public class ENEMY_GodrickTheGrafted extends Enemy{
         setMoves();
 
         solidArea = new Rectangle(0, 0, image.getWidth() * 2, image.getHeight() * 2);
-        x = gp.screenWidth / 5;
-        y = - gp.tileSize;
+        x = gp.screenWidth / 3;
+        y = (int) (- gp.tileSize * 1.5);
         solidAreaDefaultX = 0;
         solidAreaDefaultY = 0;
     }
