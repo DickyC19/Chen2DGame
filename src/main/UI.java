@@ -105,6 +105,9 @@ public class UI {
         if (gp.gameState == gp.deathState) {
             drawGameOver();
         }
+        if (gp.gameState == gp.winState) {
+            drawWinScreen();
+        }
         if (gp.gameState == gp.tradeState) {
             if (commandNum == -1) {
                 drawDialogueScreen();
@@ -158,6 +161,35 @@ public class UI {
         g2.setColor(new Color(100, 0, 0));
         g2.drawString(text, textX + 5, textY + 5);
         g2.setColor(Color.RED);
+        g2.drawString(text, textX, textY);
+
+        g2.setFont(fireRed.deriveFont(48F));
+        text = "PLAY AGAIN";
+        textX = getXCenteredText((text));
+        textY += gp.tileSize * 9;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 0) {
+            g2.drawString(">", textX - gp.tileSize, textY);
+        }
+
+        text = "QUIT";
+        textX = getXCenteredText((text));
+        textY += gp.tileSize;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 1) {
+            g2.drawString(">", textX - gp.tileSize, textY);
+        }
+    }
+
+    private void drawWinScreen() {
+        g2.setFont(fireRed);
+        String text = "YOU WIN";
+        int textX = getXCenteredText(text);
+        int textY = gp.tileSize * 2;
+
+        g2.setColor(new Color(139, 128, 0));
+        g2.drawString(text, textX + 5, textY + 5);
+        g2.setColor(Color.YELLOW);
         g2.drawString(text, textX, textY);
 
         g2.setFont(fireRed.deriveFont(48F));

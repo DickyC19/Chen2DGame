@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int dialogueState = 3;
     public final int deathState = 4;
     public final int tradeState = 5;
+    public final int winState = 6;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -149,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable{
                 oldMan.setDrawn(false);
             }
 
-            if (tileM.getCount() == 4 || tileM.getCount() == 7) {
+            if (tileM.getCount() == 4 || tileM.getCount() == 7 || tileM.getCount() == 8) {
                 merchant.drawNPC(g2);
             } else {
                 merchant.setDrawn(false);

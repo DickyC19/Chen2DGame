@@ -153,7 +153,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_SPACE) {
                 gp.gameState = gp.playState;
             }
-        } else if (gp.gameState == gp.deathState) {
+        } else if (gp.gameState == gp.deathState || gp.gameState == gp.winState) {
             if (code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum < 0) {
